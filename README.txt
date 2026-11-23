@@ -1,0 +1,1 @@
+GitHub Pages: загрузите все 4 файла в корень репозитория, затем Settings > Pages > Deploy from a branch > main > / (root). На Android откройте сайт в Chrome > меню > Добавить на главный экран. Интернет нужен для загрузки ИИ моделей.

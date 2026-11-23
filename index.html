@@ -1,0 +1,1196 @@
+<!doctype html>
+<html lang="ru"><head><meta name="theme-color" content="#07513e"><meta name="application-name" content="PlantAI"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="PlantAI"><link rel="icon" type="image/png" href="./icon-192.png"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="manifest" href="./manifest.webmanifest"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>img{max-width:100%}[hidden]{display:none!important}body{margin:0}
+/* Refined interface */
+:root{--bg:#F6F8F3;--soft:#E8F3E6;--accent:#176B4B;--line:#DFE8DF;--shadow:0 8px 32px rgba(28,69,45,.055);--shadow-lg:0 22px 65px rgba(22,70,44,.13)}
+body{letter-spacing:-.012em}.wrap{max-width:1200px;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px)}
+.top{background:var(--nav-bg);border-bottom:1px solid rgba(110,150,120,.12)}.bar{min-height:76px}.brand{font-size:1.28rem;letter-spacing:-.045em}.logo{width:40px;height:40px;border-radius:14px;box-shadow:0 5px 14px rgba(20,90,67,.18)}
+.nav a{padding:10px 15px;font-size:.9rem}.nav a[aria-current="page"]{box-shadow:inset 0 0 0 1px rgba(20,90,67,.08)}
+.hero{padding-block:72px 80px;gap:65px}.display{font-size:clamp(3.6rem,7.8vw,6.7rem);letter-spacing:-.065em;line-height:.99;margin:20px 0 25px}.display span{font-size:clamp(1.4rem,2.6vw,2.1rem);line-height:1.3;letter-spacing:-.035em;margin-top:20px}.eyebrow{letter-spacing:.13em;font-size:.78rem}.lead{line-height:1.85;font-size:1.08rem}.cta{margin-top:34px}.btn{min-height:44px;transition:transform .2s,box-shadow .2s,background .2s}.btn:hover{transform:translateY(-2px)}.btn.lg{min-height:56px;padding:16px 26px}.hero-art{border-radius:44px;background:radial-gradient(circle at 48% 34%,#E3F3DE 0%,#EDF6E9 43%,#F9FBF7 100%);box-shadow:0 35px 80px rgba(24,82,51,.13)}
+.card{border-radius:26px;padding:30px}.grid3 .card{min-height:210px;transition:transform .25s,box-shadow .25s}.grid3 .card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}.step-n{width:44px;height:44px;border-radius:15px;font-size:1rem}.banner{margin-top:25px;padding:34px 38px}.section-head{padding-block:40px 28px}.h2{letter-spacing:-.045em}.drop{min-height:340px;border-radius:22px}.field{min-height:46px}.pc{padding:0}.pc-art{background:radial-gradient(circle at 50% 42%,#e1f1df,#f6faf4 70%)}.pc-body{padding:22px}.pc:hover{transform:translateY(-6px)}footer{margin-top:50px}
+@media(max-width:860px){.hero{padding-block:35px 50px;gap:35px}.hero-art{max-width:580px;width:100%;margin:auto}.bar{min-height:66px}.nav{padding-bottom:5px}.nav a{padding:9px 12px}.display{font-size:clamp(3rem,10vw,5rem)}}
+@media(max-width:520px){.hero{padding-top:28px}.display{font-size:3.15rem}.hero-art{border-radius:28px}.card{padding:22px;border-radius:22px}.banner{padding:25px}.btn.lg{width:100%}.cta{width:100%}.nav{gap:3px}.nav a{font-size:.82rem;padding:8px 10px}.grid3 .card{min-height:unset}.section-head{padding-top:26px}}
+</style></head><body>
+<title>PlantAI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@1,400;1,500&display=swap">
+<style>
+/* Композиция: липкая шапка, крупный заголовок слева и «лабораторная» композиция из растений справа, ниже карточки на светлом молочном фоне. */
+:root{
+  --bg:#FAFAF7; --surface:#FFFFFF; --soft:#E8F5E9; --ink:#1F2624; --muted:#5B6662; --line:#E2E6DF;
+  --accent:#145A43; --accent-ink:#FFFFFF; --accent-rgb:20,90,67;
+  --good-rgb:31,138,95; --warn-rgb:176,112,20; --bad-rgb:192,57,43;
+  --good:rgb(var(--good-rgb)); --warn:rgb(var(--warn-rgb)); --bad:rgb(var(--bad-rgb));
+  --good-bg:rgba(var(--good-rgb),.12); --warn-bg:rgba(var(--warn-rgb),.12); --bad-bg:rgba(var(--bad-rgb),.1);
+  --nav-bg:rgba(250,250,247,.82);
+  --shadow:0 1px 2px rgba(20,40,30,.05),0 8px 24px rgba(20,40,30,.06);
+  --shadow-lg:0 2px 4px rgba(20,40,30,.06),0 28px 64px rgba(20,60,45,.14);
+  --glow:rgba(255,255,255,.75); --pot:#DCE3DB; --pot-rim:#C7D1C6; --pot-shadow:rgba(20,40,30,.1);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1512; --surface:#16201B; --soft:#1B2B23; --ink:#E9F0EC; --muted:#98A8A0; --line:#26352D;
+  --accent:#5CC49A; --accent-ink:#062117; --accent-rgb:92,196,154;
+  --good-rgb:76,195,138; --warn-rgb:224,168,75; --bad-rgb:239,122,107;
+  --nav-bg:rgba(14,21,18,.82);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3);
+  --shadow-lg:0 2px 4px rgba(0,0,0,.3),0 28px 64px rgba(0,0,0,.45);
+  --glow:rgba(255,255,255,.05); --pot:#33443A; --pot-rim:#41554A; --pot-shadow:rgba(0,0,0,.35);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1512; --surface:#16201B; --soft:#1B2B23; --ink:#E9F0EC; --muted:#98A8A0; --line:#26352D;
+  --accent:#5CC49A; --accent-ink:#062117; --accent-rgb:92,196,154;
+  --good-rgb:76,195,138; --warn-rgb:224,168,75; --bad-rgb:239,122,107;
+  --nav-bg:rgba(14,21,18,.82);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3);
+  --shadow-lg:0 2px 4px rgba(0,0,0,.3),0 28px 64px rgba(0,0,0,.45);
+  --glow:rgba(255,255,255,.05); --pot:#33443A; --pot-rim:#41554A; --pot-shadow:rgba(0,0,0,.35);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:40}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* шапка */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--nav-bg);-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:16px;min-height:60px;flex-wrap:wrap;padding-block:8px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.12rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+.logo{width:32px;height:32px;border-radius:10px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}
+.nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none;min-width:0}
+.nav::-webkit-scrollbar{display:none}
+.nav a{padding:8px 14px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.94rem;white-space:nowrap;display:flex;gap:7px;align-items:center}
+.nav a:hover{color:var(--ink);background:var(--soft)}
+.nav a[aria-current="page"]{background:var(--soft);color:var(--accent);font-weight:600}
+@media(max-width:760px){.nav{margin-left:0;width:100%}.bar{gap:4px}}
+
+/* страница */
+.page{padding-block:20px 72px;animation:rise .45s ease both}
+@keyframes rise{from{opacity:.4;transform:translateY(10px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.display{font-size:clamp(2.8rem,7vw,5rem);line-height:1.02;letter-spacing:-.035em;font-weight:700;margin:14px 0 20px}
+.display span{display:block;margin-top:12px;color:var(--accent);font-weight:600;font-size:clamp(1.45rem,3.3vw,2.15rem);letter-spacing:-.02em;line-height:1.15}
+.lead{font-size:1.14rem;color:var(--muted);max-width:34em}
+.h2{font-size:clamp(1.8rem,3.6vw,2.6rem);line-height:1.1;letter-spacing:-.03em;font-weight:700}
+.sub{color:var(--muted);margin-top:10px;max-width:42em}
+.section-head{padding-block:28px 24px}
+.latin{font-family:var(--serif);font-style:italic;color:var(--muted)}
+
+/* кнопки и элементы форм */
+.btn{border:1px solid transparent;border-radius:999px;padding:11px 20px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;line-height:1.2;transition:transform .15s,box-shadow .2s,background .2s;background:none}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{box-shadow:0 8px 24px rgba(var(--accent-rgb),.3)}
+.btn.ghost{background:var(--surface);border-color:var(--line)}
+.btn.ghost:hover{background:var(--soft)}
+.btn.danger{color:var(--bad);border-color:rgba(var(--bad-rgb),.5)}
+.btn.danger:hover{background:var(--bad-bg)}
+.btn.lg{padding:14px 26px;font-size:1.02rem}
+.btn.sm{padding:6px 14px;font-size:.86rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.field{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-width:0}
+select.field{width:auto;max-width:100%}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;cursor:pointer;font-weight:500;font-size:.92rem}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;font-size:.8rem;font-weight:600;background:var(--soft);color:var(--accent);white-space:nowrap}
+.chip.good{background:var(--good-bg);color:var(--good)}
+.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}
+.chip.mute{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+
+/* карточки */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:26px;min-width:0}
+.card.soft{background:var(--soft);box-shadow:none;border-color:transparent}
+.card h3{font-size:1.2rem;letter-spacing:-.015em;margin-bottom:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+@media(max-width:860px){.grid3,.two{grid-template-columns:minmax(0,1fr)}}
+.stack{display:flex;flex-direction:column;gap:18px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+
+/* главная */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding-block:36px 52px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.status-line{display:flex;align-items:center;gap:8px;margin-top:22px;font-size:.9rem;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--warn)}
+.status-line.on .dot{background:var(--good)}
+.hero-art{position:relative;aspect-ratio:1/1;border-radius:36px;background:radial-gradient(120% 90% at 28% 8%,var(--soft),var(--surface));border:1px solid var(--line);box-shadow:var(--shadow-lg);overflow:hidden}
+.hero-art .p{position:absolute;display:block}
+.hero-art .p1{width:42%;left:1%;bottom:7%}
+.hero-art .p3{width:42%;right:0;bottom:9%}
+.hero-art .p2{width:72%;left:14%;bottom:3%}
+.scan{position:absolute;left:25%;top:9%;width:50%;height:68%;pointer-events:none}
+.scan i{position:absolute;width:28px;height:28px;border:3px solid var(--accent);border-radius:6px}
+.scan i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}
+.scan i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}
+.scan i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}
+.scan i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
+.scan b{position:absolute;left:6%;right:6%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);animation:scan 3.4s ease-in-out infinite alternate}
+@keyframes scan{from{top:6%}to{top:94%}}
+@media(max-width:860px){.hero{grid-template-columns:minmax(0,1fr);gap:28px;padding-block:20px 36px}.hero-art{aspect-ratio:1/.92}}
+.step-n{width:34px;height:34px;border-radius:50%;background:var(--soft);color:var(--accent);display:grid;place-items:center;font-weight:700;margin-bottom:14px}
+.banner{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:16px}
+
+/* диагностика */
+.drop{border:2px dashed var(--line);border-radius:20px;min-height:300px;display:grid;place-items:center;background:var(--bg);overflow:hidden;padding:12px;transition:border-color .2s,background .2s}
+.drop.over{border-color:var(--accent);background:var(--soft)}
+.drop.has{border-style:solid}
+.drop img{max-width:100%;max-height:420px;border-radius:12px;display:block}
+.drop-empty{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:var(--muted);padding:24px}
+.drop-empty strong{color:var(--ink)}
+.big-result{font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.025em;line-height:1.15;font-weight:700}
+.meter{height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.meter>i{display:block;height:100%;border-radius:99px;background:var(--accent);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.brow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr) 58px;gap:10px;align-items:center;font-size:.9rem}
+.brow .t{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.brow .t>i{display:block;height:100%;border-radius:99px}
+.brow .v{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+@media(max-width:480px){.brow{grid-template-columns:minmax(0,1fr) 54px}.brow .t{grid-column:1/-1;order:3}}
+.note{border-radius:14px;padding:13px 16px;display:flex;gap:12px;align-items:flex-start;border:1px solid transparent;font-size:.93rem}
+.note>svg{flex:none;margin-top:2px}
+.note.warn{background:var(--warn-bg);border-color:rgba(var(--warn-rgb),.3)}
+.note.bad{background:var(--bad-bg);border-color:rgba(var(--bad-rgb),.3)}
+.note.good{background:var(--good-bg);border-color:rgba(var(--good-rgb),.3)}
+.note.info{background:var(--soft)}
+.recs{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.spin{width:22px;height:22px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--accent);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+details>summary{cursor:pointer;font-weight:600;padding-block:6px}
+details ol{margin:8px 0 0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85em;background:var(--soft);padding:1px 6px;border-radius:6px}
+.maprow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:10px;align-items:center}
+@media(max-width:560px){.maprow{grid-template-columns:minmax(0,1fr)}}
+
+/* каталог */
+.search{position:relative;flex:1 1 280px;min-width:0}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search .field{padding-left:42px;border-radius:999px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-top:22px}
+.pc{padding:0;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.pc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.pc-art{aspect-ratio:1/.86;display:grid;place-items:center;background:radial-gradient(100% 80% at 50% 15%,var(--soft),transparent 85%),var(--bg);border-bottom:1px solid var(--line)}
+.pc-art svg{width:82%;height:auto;display:block}
+.pc-body{padding:16px 18px 20px;display:flex;flex-direction:column;gap:8px}
+.pc-body h3{margin:0;font-size:1.12rem;letter-spacing:-.015em}
+.empty{text-align:center;padding:48px 16px;color:var(--muted)}
+
+/* лаборатория */
+.kpis{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center}
+@media(max-width:560px){.kpis{grid-template-columns:minmax(0,1fr);justify-items:center}}
+.nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:100%}
+.nums div{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.nums b{display:block;font-size:1.6rem;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.nums span{font-size:.8rem;color:var(--muted)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:700px;font-size:.92rem}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums}
+.thumb{width:48px;height:48px;border-radius:10px;object-fit:cover;display:block}
+.mx{display:grid;grid-template-columns:minmax(0,1.1fr) repeat(3,minmax(0,1fr));gap:6px;font-size:.82rem;align-items:stretch}
+.mx .h{color:var(--muted);font-weight:600;display:flex;align-items:center;justify-content:center;text-align:center;padding:4px}
+.mx .h.l{justify-content:flex-start;text-align:left}
+.mx .c{border-radius:10px;display:grid;place-items:center;padding:14px 4px;font-weight:700;font-variant-numeric:tabular-nums;background:var(--bg);border:1px solid var(--line)}
+.csv{width:100%;min-height:150px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8rem;resize:vertical}
+
+footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--muted);font-size:.9rem}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+(function () {
+'use strict';
+var useState = React.useState, useEffect = React.useEffect, useRef = React.useRef, useMemo = React.useMemo;
+var h = React.createElement;
+var html = htm.bind(h);
+
+/* ============ НАСТРОЙКА ============
+   Чтобы модель подключалась автоматически у всех посетителей сайта,
+   вставьте сюда ссылку из Teachable Machine, например:
+   var MODEL_URL = "https://teachablemachine.withgoogle.com/models/XXXXXXXX/";
+*/
+var MODEL_URL = "https://teachablemachine.withgoogle.com/models/CDdElzFB-/";
+
+/* ============ ДАННЫЕ ============ */
+var CATS = [
+  { key: 'healthy', name: 'Здоровый лист томата', short: 'Здоровый', color: 'var(--good)' },
+  { key: 'water', name: 'Альтернариоз томата (Early blight)', short: 'Альтернариоз', color: 'var(--warn)' },
+  { key: 'disease', name: 'Фитофтороз томата (Late blight)', short: 'Фитофтороз', color: 'var(--bad)' }
+];
+var CAT = {}; CATS.forEach(function (c) { CAT[c.key] = c; });
+var REC = {
+ healthy: {
+  lead:'Лист томата соответствует категории «Здоровый».',
+  items:['Сохраните достаточное освещение и проветривание без холодных сквозняков.','Проверяйте влажность грунта перед поливом; не допускайте постоянного застоя воды.','Раз в 3–4 дня осматривайте нижнюю сторону листьев и сохраняйте фото для сравнения.']
+ },
+ water: {
+  lead:'На листе обнаружены признаки, характерные для альтернариоза томата.',
+  items:['Осмотрите нижние листья: ищите бурые пятна с концентрическими кольцами.','Уберите опавшие поражённые листья; не оставляйте растительные остатки рядом с томатом.','Поливайте под корень, стараясь не смачивать листья.','Обеспечьте движение воздуха между растениями и повторите фото через 2–3 дня.','Если пятна распространяются, обратитесь к агроному для подбора подходящих мер защиты.']
+ },
+ disease: {
+  lead:'На листе обнаружены признаки, характерные для фитофтороза томата.',
+  items:['Осмотрите остальные листья и стебли на тёмные водянистые пятна.','По возможности отделите подозрительное растение от здоровых и не переносите мокрые листья между растениями.','Уменьшите длительное увлажнение листвы, улучшите проветривание.','Отметьте дату и повторно сфотографируйте те же участки на следующий день.','При быстром распространении поражений обратитесь к специалисту по защите растений.']
+ }
+};
+
+var PLANTS = [
+  { ru: 'Юкка', lat: 'Yucca gigantea', kind: 'yucca', c1: '#2E7A55', c2: '#7FC49A', c3: '#8A6B50', light: 'Яркий свет', water: 'Умеренный', tip: 'Любит яркий свет и прохладную зиму. Поливайте, когда верхние 3–5 см почвы подсохнут.' },
+  { ru: 'Хлорофитум хохлатый', lat: 'Chlorophytum comosum', kind: 'grass', c1: '#4FA66F', c2: '#A6DDB0', light: 'Рассеянный свет', water: 'Умеренный', tip: 'Растёт при рассеянном свете. Детки на длинных усах можно отсаживать в отдельные горшки.' },
+  { ru: 'Спатифиллум', lat: 'Spathiphyllum wallisii', kind: 'spath', c1: '#1F6B4A', c2: '#2F8A5F', light: 'Полутень', water: 'Регулярный', tip: 'Любит полутень и влажную почву. Поникшие листья сигналят о жажде и после полива выпрямляются.' },
+  { ru: 'Замиокулькас', lat: 'Zamioculcas zamiifolia', kind: 'zz', c1: '#1E6B45', c2: '#3F8F62', light: 'Любое освещение', water: 'Редкий', tip: 'Переносит затенение. Запасает воду в клубнях, поэтому лишняя вода опаснее засухи.' },
+  { ru: 'Толстянка', lat: 'Crassula ovata', kind: 'crassula', c1: '#4E9F6B', c2: '#8FCB9F', c3: '#8A6B50', light: 'Яркий свет', water: 'Редкий', tip: 'Толстые листья хранят воду. Поливайте только после просыхания почвы.' },
+  { ru: 'Традесканция', lat: 'Tradescantia zebrina', kind: 'trail', c1: '#7E57A6', c2: '#BFD3CE', c3: '#7A5C9A', light: 'Яркий рассеянный свет', water: 'Умеренный', tip: 'Для яркой окраски листьев нужен рассеянный свет. Прищипывайте верхушки, чтобы куст был пышнее.' },
+  { ru: 'Бегония', lat: 'Begonia spp.', kind: 'begonia', c1: '#2E7A55', c2: '#9B5B73', c3: '#7A4A5A', light: 'Яркий рассеянный свет', water: 'Умеренный', tip: 'Не лейте воду на листья, чтобы не появились пятна. Любит влажный воздух.' },
+  { ru: 'Фикус Бенджамина', lat: 'Ficus benjamina', kind: 'ficusS', c1: '#3F9163', c2: '#6DB98A', c3: '#8A6B50', light: 'Яркий рассеянный свет', water: 'Умеренный', tip: 'Не любит перестановок и сквозняков: может сбросить листья.' },
+  { ru: 'Хлорофитум пестролистный', lat: 'Chlorophytum comosum', kind: 'grass', v: 'var', c1: '#3F9E69', c2: '#F4F8F1', light: 'Яркий рассеянный свет', water: 'Умеренный', tip: 'Пёстрым листьям нужно больше света, чем зелёным. Избегайте застоя воды.' },
+  { ru: 'Антуриум', lat: 'Anthurium andraeanum', kind: 'anth', c1: '#1F6B4A', c2: '#2F8A5F', c3: '#D7263D', light: 'Яркий рассеянный свет', water: 'Регулярный', tip: 'Любит тепло и влажный воздух. Поливайте мягкой отстоянной водой.' },
+  { ru: 'Аглаонема', lat: 'Aglaonema commutatum', kind: 'aglao', c1: '#2A6F4B', c2: '#9FD0A8', light: 'Полутень', water: 'Умеренный', tip: 'Хорошо растёт в полутени. Держите в тепле, без сквозняков.' },
+  { ru: 'Фикус каучуконосный', lat: 'Ficus elastica', kind: 'ficusL', c1: '#1F5F43', c2: '#2E7A55', c3: '#8A4B4B', light: 'Яркий свет', water: 'Умеренный', tip: 'Крупные листья протирайте влажной тканью. Поливайте после просыхания верхнего слоя.' },
+  { ru: 'Фикус Биннендийка', lat: 'Ficus maclellandii', kind: 'ficusN', c1: '#3C8F62', c2: '#6DB98A', c3: '#8A6B50', light: 'Яркий рассеянный свет', water: 'Умеренный', tip: 'Поливайте умеренно и не допускайте переувлажнения.' },
+  { ru: 'Сансевиерия трёхполосная', lat: 'Dracaena trifasciata', kind: 'sword', c1: '#2B6E4C', c2: '#7DBF93', light: 'Любое освещение', water: 'Редкий', tip: 'Растёт при любом освещении. Поливайте редко, зимой почти не поливайте.' },
+  { ru: 'Молочай трёхгранный', lat: 'Euphorbia trigona', kind: 'euph', c1: '#3C8F62', c2: '#8FCB9F', light: 'Яркий свет', water: 'Редкий', tip: 'Сок раздражает кожу, работайте в перчатках. Поливайте редко.' },
+  { ru: 'Алоэ', lat: 'Aloe vera', kind: 'aloe', c1: '#4E9F78', c2: '#8FCB9F', light: 'Яркий свет', water: 'Редкий', tip: 'Зимой держите почти сухим и прохладным.' },
+  { ru: 'Сансевиерия Ханни', lat: "Dracaena trifasciata 'Hahnii'", kind: 'hahnii', c1: '#3F8F62', c2: '#B8DFA6', light: 'Любое освещение', water: 'Редкий', tip: 'Компактная розетка. Не заливайте центр розетки при поливе.' },
+  { ru: 'Эухарис', lat: 'Eucharis × grandiflora', kind: 'eucharis', c1: '#1F6B4A', c2: '#2F8A5F', light: 'Рассеянный свет', water: 'Умеренный', tip: 'После цветения нужен период покоя с уменьшенным поливом.' },
+  { ru: 'Лимон', lat: 'Citrus × limon', kind: 'lemon', c1: '#2E7A55', c2: '#4FA173', c3: '#8A6B50', light: 'Яркий свет', water: 'Регулярный', tip: 'Нужен очень яркий свет. Поливайте отстоянной водой и не оставляйте воду в поддоне.' },
+  { ru: 'Бриофиллум', lat: 'Kalanchoe daigremontiana', kind: 'bryo', c1: '#5B9F7C', c2: '#C7DD8A', c3: '#7A8F6A', light: 'Яркий свет', water: 'Редкий', tip: 'Сок ядовит, держите вдали от детей и животных. Детки на краях листьев легко укореняются.' }
+];
+PLANTS.forEach(function (p, i) { p.id = i + 1; });
+
+/* ============ УТИЛИТЫ ============ */
+var store = {
+  get: function (k, d) { try { var v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+};
+var uid = function () { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); };
+var pct = function (x) { return x == null ? '—' : (x * 100).toFixed(1).replace('.', ',') + '%'; };
+var fmtDate = function (ts) { return new Date(ts).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }); };
+
+function readFile(f) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(r.result); }; r.onerror = rej; r.readAsDataURL(f); }); }
+function loadImg(src) { return new Promise(function (res, rej) { var i = new Image(); i.onload = function () { res(i); }; i.onerror = rej; i.src = src; }); }
+function squareThumb(file, size) {
+  size = size || 224;
+  return readFile(file).then(loadImg).then(function (img) {
+    var c = document.createElement('canvas'); c.width = c.height = size;
+    var s = Math.min(img.naturalWidth, img.naturalHeight);
+    c.getContext('2d').drawImage(img, (img.naturalWidth - s) / 2, (img.naturalHeight - s) / 2, s, s, 0, 0, size, size);
+    return c.toDataURL('image/jpeg', 0.82);
+  });
+}
+
+function saveFile(name, text) {
+  var inViewer = !!(window.claude && window.claude.use);
+  var p = inViewer ? window.claude.use('downloads') : Promise.resolve(null);
+  return p.then(function (d) {
+    if (d) { return d.save({ filename: name, data: text }).then(function () { return 'saved'; }, function (e) { return e && e.code === 'declined' ? 'declined' : 'failed'; }); }
+    if (inViewer) return 'unavailable';
+    try {
+      var u = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }));
+      var a = document.createElement('a'); a.href = u; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(u); }, 1500);
+      return 'saved';
+    } catch (e) { return 'failed'; }
+  }, function () { return 'unavailable'; });
+}
+
+function toCSV(rows) {
+  var esc = function (v) { var s = String(v == null ? '' : v); return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  var lines = [['№', 'Дата и время', 'Правильная категория', 'Прогноз ИИ', 'Уверенность модели, %', 'Совпадение'].map(esc).join(';')];
+  rows.forEach(function (r, i) {
+    lines.push([i + 1, fmtDate(r.ts), CAT[r.truth].name, r.pred ? CAT[r.pred].name : '',
+      r.conf == null ? '' : (r.conf * 100).toFixed(1).replace('.', ','), r.pred ? (r.pred === r.truth ? 'да' : 'нет') : ''].map(esc).join(';'));
+  });
+  return '﻿' + lines.join('\r\n');
+}
+
+function stats(rows) {
+  var withP = rows.filter(function (r) { return r.pred; });
+  var ok = withP.filter(function (r) { return r.pred === r.truth; }).length;
+  var per = CATS.map(function (c) {
+    var t = withP.filter(function (r) { return r.truth === c.key; });
+    var o = t.filter(function (r) { return r.pred === c.key; }).length;
+    return { key: c.key, total: t.length, ok: o, acc: t.length ? o / t.length : null };
+  });
+  var mat = CATS.map(function (a) { return CATS.map(function (b) { return withP.filter(function (r) { return r.truth === a.key && r.pred === b.key; }).length; }); });
+  return { total: rows.length, n: withP.length, ok: ok, acc: withP.length ? ok / withP.length : null, per: per, mat: mat };
+}
+
+/* ============ ИКОНКИ ============ */
+var ICONS = {
+  home: 'M3 11l9-8 9 8M5 10v10h14V10',
+  scan: 'M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3M8 12h8',
+  leaf: 'M5 19C5 10 10 5 20 4c0 10-5 15-14 15zM5 19l8-8',
+  flask: 'M9 3h6M10 3v6l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3M8 15h8',
+  info: 'M12 21a9 9 0 100-18 9 9 0 000 18zM12 11v5M12 8h.01',
+  upload: 'M12 16V4M7 9l5-5 5 5M4 20h16',
+  download: 'M12 4v12M7 11l5 5 5-5M4 20h16',
+  search: 'M11 18a7 7 0 100-14 7 7 0 000 14zM21 21l-5-5',
+  check: 'M5 12l5 5 9-10',
+  x: 'M6 6l12 12M18 6L6 18',
+  trash: 'M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3',
+  copy: 'M9 9h10v11H9zM5 15V4h10',
+  cpu: 'M7 7h10v10H7zM10 10h4v4h-4zM9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4',
+  drop: 'M12 3s6 6.5 6 11a6 6 0 01-12 0c0-4.5 6-11 6-11z',
+  alert: 'M12 4l9 16H3zM12 10v4M12 17h.01',
+  sun: 'M12 16a4 4 0 100-8 4 4 0 000 8zM12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5',
+  arrow: 'M5 12h14M13 6l6 6-6 6',
+  target: 'M12 21a9 9 0 100-18 9 9 0 000 18zM12 16a4 4 0 100-8 4 4 0 000 8z',
+  book: 'M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3zM5 17a3 3 0 013-3h11',
+  spark: 'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z',
+  file: 'M7 3h7l5 5v13H7zM14 3v5h5',
+  shield: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z'
+};
+function Icon(p) {
+  var s = p.size || 20;
+  return h('svg', { width: s, height: s, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true', focusable: 'false' }, h('path', { d: ICONS[p.name] }));
+}
+
+/* ============ ИЛЛЮСТРАЦИИ РАСТЕНИЙ ============ */
+var rnd = function (i) { var x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+var bez = function (p0, p1, p2, t) { var u = 1 - t; return [u * u * p0[0] + 2 * u * t * p1[0] + t * t * p2[0], u * u * p0[1] + 2 * u * t * p1[1] + t * t * p2[1]]; };
+var leaf = function (x, y, len, w, a, fill, k, op, st) {
+  return h('path', { key: k, d: 'M0 0C' + w + ' ' + (-len * .28) + ' ' + w + ' ' + (-len * .72) + ' 0 ' + (-len) + 'C' + (-w) + ' ' + (-len * .72) + ' ' + (-w) + ' ' + (-len * .28) + ' 0 0Z', transform: 'translate(' + x + ' ' + y + ') rotate(' + a + ')', fill: fill, opacity: op, stroke: st, strokeWidth: st ? 1 : undefined });
+};
+var oval = function (x, y, rx, ry, a, fill, k, op, st) {
+  return h('ellipse', { key: k, cx: x, cy: y, rx: rx, ry: ry, transform: 'rotate(' + a + ' ' + x + ' ' + y + ')', fill: fill, opacity: op, stroke: st, strokeWidth: st ? 1 : undefined });
+};
+var ln = function (d, stroke, w, k, op) { return h('path', { key: k, d: d, stroke: stroke, strokeWidth: w, fill: 'none', strokeLinecap: 'round', opacity: op }); };
+var rad = function (a) { return a * Math.PI / 180; };
+var HEART = 'M0 0C-8 -12-28 -10-26 6C-24 22-8 30 0 48C8 30 24 22 26 6C28 -10 8 -12 0 0Z';
+var B = 148;
+
+function crown(cx, cy, R, n, rx, ry, c1, c2, seed, push, kc) {
+  for (var i = 0; i < n; i++) {
+    var a = rnd(i + seed) * 6.283, r = Math.sqrt(rnd(i + seed + 50)) * R;
+    push(oval(cx + Math.cos(a) * r * 1.05, cy + Math.sin(a) * r * .85, rx, ry, rnd(i + seed + 90) * 180, i % 2 ? c1 : c2, kc.n++));
+  }
+}
+
+function PlantArt(p) {
+  var parts = [], k = { n: 0 }, c1 = p.c1, c2 = p.c2, c3 = p.c3, kind = p.kind;
+  var add = function (n) { parts.push(n); };
+  var i, j, a;
+  switch (kind) {
+    case 'yucca':
+      add(ln('M100 ' + B + 'L100 98', c3, 13, k.n++)); add(ln('M97 ' + B + 'L97 100', '#A68767', 4, k.n++));
+      for (a = -84; a <= 84; a += 21) add(leaf(100, 102, 58 - Math.abs(a) * .13, 5.5, a, c1, k.n++));
+      for (a = -63; a <= 63; a += 42) add(leaf(100, 102, 50, 3.2, a, c2, k.n++, .7));
+      break;
+    case 'grass': {
+      var D = [[-80, 40], [-60, 62], [-40, 80], [-18, 92], [18, 92], [40, 80], [60, 62], [80, 40]];
+      D.forEach(function (d, n) {
+        var path = 'M100 ' + B + ' Q' + (100 + d[0] * .35) + ' ' + (B - d[1] * 1.35) + ' ' + (100 + d[0]) + ' ' + (B - d[1] * .5);
+        if (p.v === 'var') { add(ln(path, c2, 9, k.n++)); add(ln(path, c1, 4.5, k.n++)); }
+        else { add(ln(path, c1, 7, k.n++)); add(ln(path, c2, 2, k.n++, .8)); }
+      });
+      break; }
+    case 'spath': {
+      [-58, -38, -18, 0, 18, 38, 58].forEach(function (an, n) { add(leaf(100 + an * .35, B, 62 + (n % 2 ? 0 : 10), 15, an * .8, n % 2 ? c1 : c2, k.n++)); });
+      [[-14, -10], [18, 12]].forEach(function (o, n) {
+        var x = 100 + o[0] * 1.4, y = B - 92 + n * 8;
+        add(ln('M' + (100 + o[0]) + ' ' + B + ' L' + x + ' ' + y, c1, 2.5, k.n++));
+        add(ln('M' + x + ' ' + y + ' L' + x + ' ' + (y - 16), '#E8D48A', 4, k.n++));
+        add(leaf(x, y + 4, 40, 12, o[1] * .6, '#FFFFFF', k.n++, .98, '#C9D6CB'));
+      });
+      break; }
+    case 'zz':
+      [[-42, 84], [-22, 100], [0, 108], [21, 98], [40, 82]].forEach(function (s, n) {
+        var r = rad(s[0]), ex = 100 + Math.sin(r) * s[1], ey = B - Math.cos(r) * s[1];
+        add(ln('M100 ' + B + ' L' + ex + ' ' + ey, c2, 3, k.n++));
+        for (j = 1; j <= 6; j++) { var t = j / 6.4, sd = j % 2 ? 1 : -1; add(oval(100 + Math.sin(r) * s[1] * t + sd * 6, B - Math.cos(r) * s[1] * t, 6.5, 11 - j * .4, s[0] + sd * 55, c1, k.n++)); }
+        add(oval(ex, ey - 4, 5, 9, s[0], c1, k.n++));
+      });
+      break;
+    case 'crassula':
+      add(ln('M100 ' + B + ' L100 112', c3, 9, k.n++)); add(ln('M100 120 L78 96', c3, 6, k.n++)); add(ln('M100 118 L122 92', c3, 6, k.n++)); add(ln('M100 112 L100 70', c3, 6, k.n++)); add(ln('M78 98 L64 72', c3, 4, k.n++)); add(ln('M122 94 L138 72', c3, 4, k.n++));
+      [[78, 96], [122, 92], [100, 66], [64, 70], [138, 70]].forEach(function (c, n) {
+        for (a = 0; a < 360; a += 60) add(oval(c[0] + Math.cos(rad(a)) * 10, c[1] + Math.sin(rad(a)) * 10, 9, 6, a, n % 2 ? c1 : c2, k.n++));
+        add(oval(c[0], c[1], 6, 5, 0, c2, k.n++));
+      });
+      break;
+    case 'trail': {
+      var S = [[[88, 146], [70, 60], [40, 112]], [[100, 146], [104, 50], [128, 124]], [[112, 146], [150, 64], [160, 118]], [[94, 146], [56, 86], [52, 160]], [[108, 146], [148, 100], [150, 170]]];
+      S.forEach(function (s, n) {
+        add(ln('M' + s[0][0] + ' ' + s[0][1] + ' Q' + s[1][0] + ' ' + s[1][1] + ' ' + s[2][0] + ' ' + s[2][1], c3, 2.2, k.n++));
+        for (j = 1; j <= 7; j++) {
+          var pt = bez(s[0], s[1], s[2], j / 7.4), sd = j % 2 ? 1 : -1, an = sd * 75 + (n >= 3 ? 180 : 0);
+          add(leaf(pt[0], pt[1], 17, 6, an, c1, k.n++)); add(leaf(pt[0], pt[1], 13, 1.8, an, c2, k.n++, .85));
+        }
+      });
+      break; }
+    case 'begonia': {
+      var L = [[58, 98, -30], [100, 70, 0], [142, 100, 30], [78, 118, -62], [124, 122, 62]];
+      L.forEach(function (l) { add(ln('M100 ' + B + ' Q100 ' + (l[1] + 30) + ' ' + l[0] + ' ' + l[1], c3, 2.4, k.n++)); });
+      L.forEach(function (l) {
+        add(oval(l[0], l[1], 26, 15, l[2] - 18, c1, k.n++)); add(oval(l[0] + 3, l[1] - 1, 15, 6, l[2] - 18, c2, k.n++, .55));
+        for (j = 0; j < 4; j++) add(h('circle', { key: k.n++, cx: l[0] - 14 + j * 9, cy: l[1] - 3 + (j % 2) * 5, r: 1.7, fill: '#fff', opacity: .85 }));
+      });
+      break; }
+    case 'ficusS':
+      add(ln('M100 ' + B + ' Q95 112 100 80', c3, 6, k.n++)); add(ln('M100 100 L78 74', c3, 3, k.n++)); add(ln('M100 98 L124 70', c3, 3, k.n++));
+      crown(100, 66, 44, 74, 4.2, 8, c1, c2, 10, add, k);
+      break;
+    case 'lemon':
+      add(ln('M100 ' + B + ' Q95 112 100 80', c3, 6, k.n++)); add(ln('M100 100 L78 74', c3, 3, k.n++)); add(ln('M100 98 L124 70', c3, 3, k.n++));
+      crown(100, 66, 44, 56, 6, 11, c1, c2, 30, add, k);
+      [[78, 70], [118, 58], [104, 84], [88, 46]].forEach(function (f) { add(oval(f[0], f[1], 6.5, 8.5, 20, '#F2C94C', k.n++)); add(h('circle', { key: k.n++, cx: f[0] + 1, cy: f[1] - 1, r: 1.4, fill: '#E0A92A' })); });
+      break;
+    case 'ficusL':
+      add(ln('M100 ' + B + ' L100 40', c3, 6, k.n++));
+      for (j = 0; j < 8; j++) { var sd = j % 2 ? 1 : -1, y = B - 18 - j * 13; add(oval(100 + sd * 24, y - 4, 23, 10, sd * -16, j % 2 ? c1 : c2, k.n++)); add(ln('M100 ' + y + ' L' + (100 + sd * 44) + ' ' + (y - 12), c3, 1.2, k.n++, .8)); }
+      add(oval(100, 36, 7, 14, 0, c2, k.n++));
+      break;
+    case 'ficusN':
+      add(ln('M100 ' + B + ' L100 52', c3, 5, k.n++));
+      [-82, -58, -34, -10, 12, 36, 60, 84].forEach(function (an, n) { add(leaf(100, 58 + (n % 4) * 7, 54, 5, an, n % 2 ? c1 : c2, k.n++)); });
+      [-48, 0, 46].forEach(function (an) { add(leaf(100, 70, 40, 4, an, c1, k.n++)); });
+      break;
+    case 'anth': {
+      var AL = [[62, 96], [100, 78], [138, 96], [80, 120], [122, 122]];
+      AL.forEach(function (l) { add(ln('M100 ' + B + ' Q100 ' + (l[1] + 26) + ' ' + l[0] + ' ' + l[1], c2, 2.4, k.n++)); });
+      [[84, 66], [122, 58]].forEach(function (f) { add(ln('M100 ' + B + ' Q' + f[0] + ' ' + (f[1] + 50) + ' ' + f[0] + ' ' + (f[1] + 8), c2, 2.2, k.n++)); });
+      AL.forEach(function (l, n) { add(h('path', { key: k.n++, d: HEART, transform: 'translate(' + l[0] + ' ' + l[1] + ') rotate(' + ((l[0] - 100) * .3) + ') scale(.95)', fill: n % 2 ? c1 : c2 })); });
+      [[84, 66], [122, 58]].forEach(function (f, n) {
+        add(h('path', { key: k.n++, d: HEART, transform: 'translate(' + f[0] + ' ' + (f[1] + 8) + ') rotate(180) scale(.62)', fill: c3 }));
+        add(ln('M' + f[0] + ' ' + (f[1] + 2) + ' Q' + (f[0] + 3) + ' ' + (f[1] - 8) + ' ' + (f[0] + 1) + ' ' + (f[1] - 14), '#F3D77A', 3, k.n++));
+      });
+      break; }
+    case 'aglao':
+      [-52, -32, -12, 10, 30, 50].forEach(function (an, n) { var Ln = 60 + ((n + 1) % 3) * 10, x = 100 + an * .3; add(leaf(x, B, Ln, 17, an * .9, c1, k.n++)); add(leaf(x, B - 2, Ln * .86, 8, an * .9, c2, k.n++, .8)); });
+      break;
+    case 'euph':
+      [[78, 62, 13], [124, 58, 13], [100, 34, 15]].forEach(function (c) {
+        add(h('rect', { key: k.n++, x: c[0] - c[2] / 2, y: c[1], width: c[2], height: B - c[1] + 4, rx: c[2] / 2, fill: c1 }));
+        add(ln('M' + (c[0] - c[2] / 4) + ' ' + (c[1] + 6) + ' L' + (c[0] - c[2] / 4) + ' ' + B, c2, 1.2, k.n++, .8)); add(ln('M' + (c[0] + c[2] / 4) + ' ' + (c[1] + 6) + ' L' + (c[0] + c[2] / 4) + ' ' + B, c2, 1.2, k.n++, .8));
+        for (j = 0; j < 6; j++) { add(oval(c[0] - c[2] / 2 - 1, c[1] + 12 + j * 15, 5, 2.8, -20, c2, k.n++)); add(oval(c[0] + c[2] / 2 + 1, c[1] + 18 + j * 15, 5, 2.8, 20, c2, k.n++)); }
+      });
+      break;
+    case 'aloe':
+      for (a = -80; a <= 80; a += 16) add(leaf(100, B - 4, 62 - Math.abs(a) * .1, 9, a, c1, k.n++));
+      for (a = -60; a <= 60; a += 30) add(leaf(100, B - 4, 50, 4.5, a, c2, k.n++, .65));
+      [-60, -30, 0, 30, 60].forEach(function (an) { [.35, .55, .75].forEach(function (t) { add(h('circle', { key: k.n++, cx: 100 + Math.sin(rad(an)) * 58 * t, cy: B - 4 - Math.cos(rad(an)) * 58 * t, r: 1.5, fill: '#fff', opacity: .7 })); }); });
+      break;
+    case 'sword':
+      [[-26, 74], [-14, 98], [-3, 118], [8, 104], [18, 88], [28, 66]].forEach(function (s, n) { var x = 100 + s[0] * .55; add(leaf(x, B, s[1], 10, s[0], c1, k.n++)); add(leaf(x, B, s[1] * .9, 4.2, s[0], c2, k.n++, .85)); });
+      break;
+    case 'hahnii':
+      for (a = -78; a <= 78; a += 21) { var l2 = 48 - Math.abs(a) * .16; add(leaf(100, B - 2, l2, 15, a, c1, k.n++)); add(leaf(100, B - 2, l2 * .9, 5, a, c2, k.n++, .9)); }
+      break;
+    case 'eucharis':
+      [-50, -28, -8, 14, 34, 54].forEach(function (an) { var r = rad(an), ex = 100 + Math.sin(r) * 44, ey = B - Math.cos(r) * 44; add(ln('M100 ' + B + ' L' + ex + ' ' + ey, c2, 3, k.n++)); add(leaf(ex, ey, 50, 15, an, c1, k.n++)); });
+      [[104, 52, 1], [88, 66, .75]].forEach(function (f) {
+        add(ln('M100 ' + B + ' L' + f[0] + ' ' + f[1], c2, 3, k.n++));
+        for (a = 0; a < 360; a += 60) add(oval(f[0] + Math.sin(rad(a)) * 11 * f[2], f[1] - Math.cos(rad(a)) * 11 * f[2], 6 * f[2], 11 * f[2], a, '#FFFFFF', k.n++, .98, '#C9D6CB'));
+        add(h('circle', { key: k.n++, cx: f[0], cy: f[1], r: 5 * f[2], fill: '#CFE8A9' }));
+      });
+      break;
+    case 'bryo':
+      add(ln('M100 ' + B + ' L100 34', c3, 5, k.n++));
+      for (j = 0; j < 7; j++) {
+        var y2 = B - 14 - j * 16, len = 38 - j * 3;
+        [-1, 1].forEach(function (sd) {
+          var an = sd * 62; add(leaf(100, y2, len, 6.5, an, c1, k.n++));
+          add(h('circle', { key: k.n++, cx: 100 + Math.sin(rad(an)) * len, cy: y2 - Math.cos(rad(an)) * len, r: 2.6, fill: c2 }));
+        });
+      }
+      break;
+  }
+  return h('svg', { viewBox: '0 0 200 200', role: 'img', 'aria-label': p.label || 'Иллюстрация комнатного растения', style: { display: 'block', width: '100%', height: 'auto' } },
+    h('ellipse', { cx: 100, cy: 110, rx: 78, ry: 72, style: { fill: 'var(--glow)' } }),
+    h('ellipse', { cx: 100, cy: 192, rx: 42, ry: 4.5, style: { fill: 'var(--pot-shadow)' } }),
+    parts,
+    h('path', { d: 'M66 152h68l-6 38H72z', style: { fill: 'var(--pot)' } }),
+    h('rect', { x: 62, y: 144, width: 76, height: 12, rx: 5, style: { fill: 'var(--pot-rim)' } })
+  );
+}
+
+/* ============ МОДЕЛЬ TEACHABLE MACHINE ============ */
+var TF_SRC = 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js';
+var TM_SRC = 'https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js';
+var libsPromise = null;
+function addScript(src) { return new Promise(function (res, rej) { var s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = function () { rej(new Error('script')); }; document.head.appendChild(s); }); }
+function loadLibs() {
+  if (window.tmImage) return Promise.resolve();
+  if (!libsPromise) libsPromise = addScript(TF_SRC).then(function () { return addScript(TM_SRC); }).catch(function (e) { libsPromise = null; throw e; });
+  return libsPromise;
+}
+var GUESS = [['healthy', /здоров|healthy|health/i], ['water', /early[_ ]?blight|альтернариоз/i], ['disease', /late[_ ]?blight|фитофтороз/i]];
+function guessCat(label) { for (var i = 0; i < GUESS.length; i++) if (GUESS[i][1].test(label)) return GUESS[i][0]; return ''; }
+
+function useModel() {
+  var s1 = useState({ status: 'idle', labels: [], source: '', error: '' }), state = s1[0], setState = s1[1];
+  var s2 = useState(function () { return store.get('plantai.tomato.url.v1', MODEL_URL); }), url = s2[0], setUrl = s2[1];
+  var s3 = useState(function () { return store.get('plantai.tomato.map.v1', {}); }), map = s3[0], setMapState = s3[1];
+  var mref = useRef(null);
+  var mapRef = useRef(map); mapRef.current = map;
+
+  function finish(model, source) {
+    var labels = model.getClassLabels();
+    var next = Object.assign({}, mapRef.current);
+    labels.forEach(function (l) { if (!next[l]) { var g = guessCat(l); if (g) next[l] = g; } });
+    store.set('plantai.tomato.map.v1', next); setMapState(next);
+    mref.current = model;
+    setState({ status: 'ready', labels: labels, source: source, error: '' });
+  }
+  function fail(msg) { mref.current = null; setState({ status: 'error', labels: [], source: '', error: msg }); }
+
+  function connectUrl(raw) {
+    var b = (raw || '').trim().replace(/(model|metadata)\.json\/?$/i, '');
+    if (!b) { fail('Вставьте ссылку на модель из Teachable Machine.'); return Promise.resolve(); }
+    if (!/^https?:\/\//i.test(b)) { fail('Ссылка должна начинаться с https://'); return Promise.resolve(); }
+    if (!/\/$/.test(b)) b += '/';
+    setState({ status: 'loading', labels: [], source: '', error: '' });
+    return loadLibs().then(function () {
+      return window.tmImage.load(b + 'model.json', b + 'metadata.json').then(function (m) {
+        store.set('plantai.tomato.url.v1', raw.trim()); setUrl(raw.trim()); finish(m, 'Ссылка: ' + b);
+      }, function () {
+        fail('Не удалось загрузить модель по ссылке. Проверьте ссылку и убедитесь, что при экспорте выбрана загрузка (Upload) и доступ по ссылке открыт. В режиме предпросмотра Claude внешние обращения заблокированы: там подключайте модель файлами.');
+      });
+    }, function () { fail('Не удалось загрузить библиотеки TensorFlow.js. Проверьте подключение к интернету.'); });
+  }
+  function connectFiles(list) {
+    var arr = Array.prototype.slice.call(list || []);
+    var mj = arr.filter(function (f) { return /model\.json$/i.test(f.name); })[0];
+    var md = arr.filter(function (f) { return /metadata\.json$/i.test(f.name); })[0];
+    var wb = arr.filter(function (f) { return /\.bin$/i.test(f.name); })[0];
+    if (!(mj && md && wb)) { fail('Нужны три файла: model.json, metadata.json и weights.bin. Выберите их вместе.'); return Promise.resolve(); }
+    setState({ status: 'loading', labels: [], source: '', error: '' });
+    return loadLibs().then(function () {
+      return window.tmImage.loadFromFiles(mj, wb, md).then(function (m) { finish(m, 'Файлы модели: ' + mj.name + ', ' + md.name + ', ' + wb.name); },
+        function () { fail('Не удалось прочитать файлы модели. Скачайте модель заново: Export Model → Tensorflow.js → Download.'); });
+    }, function () { fail('Не удалось загрузить библиотеки TensorFlow.js. Проверьте подключение к интернету.'); });
+  }
+  function setMap(label, cat) {
+    var next = Object.assign({}, mapRef.current); next[label] = cat; store.set('plantai.tomato.map.v1', next); setMapState(next);
+  }
+  function predict(el) {
+    var m = mref.current; if (!m) return Promise.reject(new Error('no model'));
+    // Resize the image before inference to reduce processing time on large photos.
+    var canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 224;
+    var ctx = canvas.getContext('2d');
+    var w = el.naturalWidth || el.width, h = el.naturalHeight || el.height;
+    var side = Math.min(w, h);
+    ctx.drawImage(el, (w-side)/2, (h-side)/2, side, side, 0, 0, 224, 224);
+    return m.predict(canvas).then(function (out) {
+      var all = out.map(function (o) { return { label: o.className, prob: o.probability, cat: mapRef.current[o.className] || '' }; }).sort(function (a, b) { return b.prob - a.prob; });
+      return { top: all[0], all: all };
+    });
+  }
+  useEffect(function () { if (url) connectUrl(url); /* eslint-disable-next-line */ }, []);
+  var ready = state.status === 'ready';
+  var mapped = ready && state.labels.length > 0 && state.labels.every(function (l) { return !!map[l]; });
+  return { status: state.status, labels: state.labels, source: state.source, error: state.error, url: url, setUrl: setUrl, map: map, setMap: setMap, connectUrl: connectUrl, connectFiles: connectFiles, predict: predict, ready: ready, mapped: mapped };
+}
+
+/* ============ МОДЕЛЬ ОПРЕДЕЛЕНИЯ ВИДА ============ */
+var SPECIES_URL = 'https://teachablemachine.withgoogle.com/models/t5XrwyPLL/';
+var SPECIES_NAMES = {Spathiphyllum:'Спатифиллум',Chlorophytum:'Хлорофитум',Ficus_benjamina:'Фикус Бенджамина',Tomato:'Томат'};
+function speciesKey(label) {
+  var x=String(label||'').toLowerCase().replace(/[^a-z]/g,'');
+  if(x.indexOf('spathiphyllum')>=0)return 'Spathiphyllum';
+  if(x.indexOf('chlorophytum')>=0)return 'Chlorophytum';
+  if(x.indexOf('ficus')>=0)return 'Ficus_benjamina';
+  if(x.indexOf('tomato')>=0)return 'Tomato';
+  return '';
+}
+function useSpeciesModel() {
+  var st=useState({status:'loading',error:''}),state=st[0],setState=st[1];
+  var ref=useRef(null);
+  useEffect(function(){
+    var active=true;
+    loadLibs().then(function(){return window.tmImage.load(SPECIES_URL+'model.json',SPECIES_URL+'metadata.json');})
+    .then(function(m){if(active){ref.current=m;setState({status:'ready',error:''});}})
+    .catch(function(){if(active)setState({status:'error',error:'Не удалось подключить модель распознавания растений. Проверьте интернет.'});});
+    return function(){active=false;};
+  },[]);
+  function predict(el){
+    if(!ref.current)return Promise.reject(new Error('species not ready'));
+    var c=document.createElement('canvas');c.width=c.height=224;
+    var w=el.naturalWidth||el.width,h=el.naturalHeight||el.height,side=Math.min(w,h);
+    c.getContext('2d').drawImage(el,(w-side)/2,(h-side)/2,side,side,0,0,224,224);
+    return ref.current.predict(c).then(function(arr){
+      var all=arr.map(function(x){return {label:x.className,key:speciesKey(x.className),prob:x.probability};}).sort(function(a,b){return b.prob-a.prob;});
+      return {top:all[0],all:all};
+    });
+  }
+  return {status:state.status,error:state.error,ready:state.status==='ready',predict:predict};
+}
+
+/* ============ МОДЕЛЬ КОМНАТНЫХ РАСТЕНИЙ ============ */
+var INDOOR_URL = 'https://teachablemachine.withgoogle.com/models/WWyviiZ3o/';
+var INDOOR_LABELS = {
+ 'Spider_Plant_Healthy':['Хлорофитум','Здоровый лист','healthy'],
+ 'Spider_Plant_Fungal_leaf_spot':['Хлорофитум','Грибковая пятнистость','fungal'],
+ 'Spider_Plant_Leaf_Tip_Necrosis':['Хлорофитум','Некроз кончиков листьев','tip'],
+ 'Snake_Plant_Healthy':['Сансевиерия','Здоровый лист','healthy'],
+ 'Snake_Plant_Anthracnose':['Сансевиерия','Антракноз','anthracnose'],
+ 'Snake_Plant_Leaf_Withering':['Сансевиерия','Увядание листьев','wither'],
+ 'Money_Plant_Healthy':['Эпипремнум золотистый','Здоровый лист','healthy'],
+ 'Money_Plant_Bacterial_wilt_disease':['Эпипремнум золотистый','Бактериальное увядание','bacterial'],
+ 'Money_Plant_Manganese_Toxicity':['Эпипремнум золотистый','Признаки токсичности марганца','manganese']
+};
+function indoorLabel(raw){
+ var n=String(raw||'').toLowerCase().replace(/[^a-z]/g,'');
+ for(var k in INDOOR_LABELS){if(k.toLowerCase().replace(/[^a-z]/g,'')===n)return INDOOR_LABELS[k];}
+ return null;
+}
+var indoorCache=null;
+function getIndoorModel(){
+ if(!indoorCache) indoorCache=loadLibs().then(function(){
+  return window.tmImage.load(INDOOR_URL+'model.json',INDOOR_URL+'metadata.json');
+ }).catch(function(e){indoorCache=null;throw e;});
+ return indoorCache;
+}
+function indoorPredict(el){
+ return getIndoorModel().then(function(m){
+  var c=document.createElement('canvas');c.width=c.height=224;
+  var w=el.naturalWidth||el.width,h=el.naturalHeight||el.height,side=Math.min(w,h);
+  c.getContext('2d').drawImage(el,(w-side)/2,(h-side)/2,side,side,0,0,224,224);
+  return m.predict(c).then(function(a){return a.sort(function(x,y){return y.probability-x.probability;})[0];});
+ });
+}
+var CARE_TIPS={
+ healthy:['Поддерживайте привычный режим ухода.','Следите за освещением и влажностью почвы.'],
+ fungal:['Изолируйте растение от других при появлении новых пятен.','Избегайте намокания листьев, улучшите вентиляцию.'],
+ tip:['Проверьте качество воды и состояние почвы.','Удаляйте только полностью засохшие участки чистым инструментом.'],
+ anthracnose:['Осмотрите остальные листья на наличие новых пятен.','Избегайте длительного увлажнения листьев и улучшите циркуляцию воздуха.'],
+ wither:['Проверьте влажность грунта и состояние корней.','Не поливайте автоматически: увядание возможно и при переувлажнении.'],
+ bacterial:['Отделите растение от остальных и осмотрите стебли и корни.','Избегайте переноса влаги и инструментов между растениями.'],
+ manganese:['Проверьте состав подкормок и не увеличивайте дозировку удобрений.','Оцените качество воды и состояние грунта.']
+};
+/* ============ МАРШРУТЫ ============ */
+var ROUTES = [['home', 'Главная', 'home'], ['diagnosis', 'Проверка растения', 'scan'], ['catalog', 'Каталог', 'leaf'], ['journal', 'Мои растения', 'book'], ['lab', 'Аналитика', 'flask'], ['about', 'Советы по уходу', 'info']];
+function useRoute() {
+  var get = function () { var x = (location.hash || '').replace('#', ''); return ROUTES.some(function (r) { return r[0] === x; }) ? x : 'home'; };
+  var s = useState(get), r = s[0], setR = s[1];
+  useEffect(function () { var f = function () { setR(get()); window.scrollTo(0, 0); }; window.addEventListener('hashchange', f); return function () { window.removeEventListener('hashchange', f); }; }, []);
+  var go = function (k) { try { location.hash = k; } catch (e) { /* ignore */ } setR(k); window.scrollTo(0, 0); };
+  return [r, go];
+}
+
+/* ============ ОБЩИЕ КОМПОНЕНТЫ ============ */
+function Header(p) {
+  return html`<header className="top"><div className="wrap bar">
+    <a className="brand" href="#home" onClick=${function (e) { e.preventDefault(); p.go('home'); }}><span className="logo"><${Icon} name="leaf" size=${18} /></span>PlantAI</a>
+    <nav className="nav" aria-label="Разделы сайта">
+      ${ROUTES.map(function (r) { return html`<a key=${r[0]} href=${'#' + r[0]} aria-current=${p.route === r[0] ? 'page' : undefined} onClick=${function (e) { e.preventDefault(); p.go(r[0]); }}><${Icon} name=${r[2]} size=${17} />${r[1]}</a>`; })}
+    </nav></div></header>`;
+}
+
+function Notice(p) {
+  return html`<div className=${'note ' + (p.tone || 'info')} role=${p.tone === 'bad' ? 'alert' : undefined}><${Icon} name=${p.icon || 'info'} size=${20} /><div>${p.children}</div></div>`;
+}
+
+/* ============ ГЛАВНАЯ ============ */
+function Home(p) {
+  var ready = p.model.ready;
+  return html`<div>
+    <section className="hero">
+      <div style=${{ minWidth: 0 }}>
+        <p className="eyebrow">Умный уход за растениями</p>
+        <h1 className="display">PlantAI<span>Забота о растениях стала проще</span></h1>
+        <p className="lead">Загрузите фотографию растения: PlantAI определит его вид и, для поддерживаемых растений, признаки состояния листьев.</p>
+        <div className="cta">
+          <button className="btn primary lg" onClick=${function () { p.go('diagnosis'); }}>Проверить растение <${Icon} name="arrow" size=${18} /></button>
+          <button className="btn ghost lg" onClick=${function () { p.go('catalog'); }}>Каталог растений</button>
+        </div>
+        <p className=${'status-line' + (ready ? ' on' : '')}><span className="dot"></span>${ready ? 'Модель ИИ подключена' : 'Для анализа подключите ИИ-модель'}</p>
+      </div>
+      <div className="hero-art" aria-hidden="true">
+        <span className="p p1"><${PlantArt} kind="sword" c1="#2B6E4C" c2="#7DBF93" /></span>
+        <span className="p p3"><${PlantArt} kind="aloe" c1="#4E9F78" c2="#8FCB9F" /></span>
+        <span className="p p2"><${PlantArt} kind="ficusL" c1="#1F5F43" c2="#2E7A55" c3="#8A4B4B" /></span>
+        <div className="scan"><i></i><i></i><i></i><i></i><b></b></div>
+      </div>
+    </section>
+    <section className="grid3" aria-label="Как это работает">
+      <div className="card"><div className="step-n">1</div><h3>Загрузите фото</h3><p className="muted">Сфотографируйте лист или всё растение при хорошем освещении.</p></div>
+      <div className="card"><div className="step-n">2</div><h3>Запустите анализ</h3><p className="muted">Подключённая ИИ-модель проанализирует фотографию растения.</p></div>
+      <div className="card"><div className="step-n">3</div><h3>Получите рекомендации</h3><p className="muted">Узнайте результат и получите понятные рекомендации по уходу.</p></div>
+    </section>
+    <section className="card soft banner"><div><h3 style=${{ fontSize: '1.4rem' }}>Откройте мир растений</h3><p className="muted">Каталог комнатных растений и рекомендации по уходу. Диагностика доступна для видов, представленных в обучающих данных.</p></div><button className="btn primary" onClick=${function () { p.go('catalog'); }}>Смотреть каталог <${Icon} name="arrow" size=${18} /></button></section>
+  </div>`;
+}
+
+/* ============ ПАНЕЛЬ МОДЕЛИ ============ */
+function ModelPanel(p) {
+  var m = p.model, fileInp = useRef(null);
+  var badge = { idle: ['mute', 'Не подключена'], loading: ['warn', 'Загрузка…'], ready: ['good', 'Подключена'], error: ['bad', 'Ошибка'] }[m.status];
+  return html`<section className="card" id="model-panel" aria-labelledby="mp-title">
+    <div className="row" style=${{ justifyContent: 'space-between', marginBottom: 6 }}>
+      <h3 id="mp-title" style=${{ margin: 0 }}>Подключение модели ИИ</h3>
+      <span className=${'chip ' + badge[0]}>${badge[1]}</span>
+    </div>
+    <p className="muted small">Сайт использует настоящую модель из Google Teachable Machine. Подключите её ссылкой или файлами.</p>
+    <div className="stack" style=${{ marginTop: 16 }}>
+      ${m.status === 'error' ? html`<${Notice} tone="bad" icon="alert">${m.error}<//>` : null}
+      <div>
+        <label htmlFor="model-url" className="small" style=${{ fontWeight: 600 }}>Ссылка на модель</label>
+        <div className="row" style=${{ marginTop: 6, flexWrap: 'nowrap' }}>
+          <input id="model-url" className="field" type="url" inputMode="url" placeholder="https://teachablemachine.withgoogle.com/models/…" value=${m.url} onChange=${function (e) { m.setUrl(e.target.value); }} onKeyDown=${function (e) { if (e.key === 'Enter') m.connectUrl(m.url); }} />
+          <button className="btn primary" disabled=${m.status === 'loading'} onClick=${function () { m.connectUrl(m.url); }}>Подключить</button>
+        </div>
+      </div>
+      <div>
+        <span className="small" style=${{ fontWeight: 600 }}>Или файлы модели</span>
+        <div className="row" style=${{ marginTop: 6 }}>
+          <input id="model-files" ref=${fileInp} type="file" multiple hidden accept=".json,.bin" onChange=${function (e) { m.connectFiles(e.target.files); e.target.value = ''; }} />
+          <button className="btn ghost" disabled=${m.status === 'loading'} onClick=${function () { fileInp.current && fileInp.current.click(); }}><${Icon} name="file" size=${18} />Выбрать model.json, metadata.json, weights.bin</button>
+        </div>
+        <p className="muted small" style=${{ marginTop: 6 }}>Файлы работают и в режиме предпросмотра Claude. Модель из файлов нужно выбирать заново после перезагрузки страницы.</p>
+      </div>
+      ${m.ready ? html`<div>
+        <p className="small muted">${m.source}</p>
+        <h4 style=${{ margin: '14px 0 8px', fontSize: '1rem' }}>Какой категории соответствует каждый класс модели</h4>
+        <div className="stack" style=${{ gap: 10 }}>
+          ${m.labels.map(function (l, li) { return html`<div className="maprow" key=${l}>
+            <label htmlFor=${'map-' + li} style=${{ fontWeight: 500, overflowWrap: 'anywhere' }}>${l}</label>
+            <select id=${'map-' + li} className="field" value=${m.map[l] || ''} onChange=${function (e) { m.setMap(l, e.target.value); }}>
+              <option value="">Выберите категорию</option>
+              ${CATS.map(function (c) { return html`<option key=${c.key} value=${c.key}>${c.name}</option>`; })}
+            </select></div>`; })}
+        </div>
+        ${!m.mapped ? html`<div style=${{ marginTop: 12 }}><${Notice} tone="warn" icon="alert">Сопоставьте все классы с категориями, иначе результат нельзя показать.<//></div>` : null}
+      </div>` : null}
+      <details>
+        <summary>Как получить модель в Teachable Machine</summary>
+        <ol className="muted">
+          <li>Откройте teachablemachine.withgoogle.com → «Начать» → «Проект изображений» → «Стандартная модель».</li>
+          <li>Создайте три класса: Healthy, Early_blight, Late_blight.</li>
+          <li>Загрузите в каждый класс свои фотографии и нажмите «Обучить модель».</li>
+          <li>Нажмите «Экспортировать модель» → вкладка «Tensorflow.js». Для ссылки выберите «Upload my model» и скопируйте адрес. Для файлов выберите «Download» и скачайте три файла.</li>
+          <li>Вставьте ссылку сюда или выберите три скачанных файла.</li>
+        </ol>
+      </details>
+    </div>
+  </section>`;
+}
+
+/* ============ ИИ-ДИАГНОСТИКА ============ */
+function Diagnosis(p){
+ var m=p.model,species=p.species;
+ var s1=useState(''),src=s1[0],setSrc=s1[1];
+ var s2=useState(false),busy=s2[0],setBusy=s2[1];
+ var s3=useState(null),result=s3[0],setResult=s3[1];
+ var s4=useState(''),err=s4[0],setErr=s4[1];
+ var inp=useRef(null);
+ function pick(f){
+  if(!f)return;
+  if(!/^image\//.test(f.type)){setErr('Выберите фотографию JPG, PNG или WebP.');return;}
+  setResult(null);setErr('');readFile(f).then(setSrc,function(){setErr('Не удалось открыть фото.');});
+ }
+ function run(){
+  if(!src||busy)return;
+  setBusy(true);setResult(null);setErr('');
+  loadImg(src).then(function(img){
+   // Модель комнатных растений распознаёт 3 вида, модель вида - ещё 4.
+   // Проверяем обе, но загружаем их только один раз; результат с наиболее
+   // уверенным совпадением нельзя сравнивать между моделями напрямую.
+   // Поэтому сначала определяем вид по модели видов, а отдельно проверяем
+   // новые виды по специализированной модели. Для сансевиерии и Money Plant
+   // отдельная модель является единственным источником идентификации.
+   return Promise.all([species.predict(img),indoorPredict(img)]).then(function(arr){
+    var sp=arr[0].top,ind=arr[1],meta=indoorLabel(ind.className);
+    var isSpider=sp.key==='Chlorophytum';
+    var useIndoor=false;
+    // Если базовая модель распознаёт хлорофитум, применяем диагноз для него.
+    if(isSpider && meta && meta[0]==='Хлорофитум')useIndoor=true;
+    // Новые виды отсутствуют в модели видов. Они могут быть предложены
+    // специализированной моделью, только при достаточно сильном ответе.
+    if(meta && (meta[0]==='Сансевиерия'||meta[0]==='Эпипремнум золотистый') && ind.probability>=0.90)useIndoor=true;
+    if(useIndoor){
+      setResult({name:meta[0],condition:meta[1],tips:CARE_TIPS[meta[2]]||[],kind:'indoor'});
+    } else if(sp.key==='Tomato' && sp.prob>=0.65 && m.ready){
+      return m.predict(img).then(function(r){
+       var label=r.top.label.toLowerCase();
+       var state=/early/.test(label)?'Альтернариоз':/late/.test(label)?'Фитофтороз':'Здоровый лист';
+       var tip=/early|late/.test(label)?['Осмотрите листья с обеих сторон.','Улучшите вентиляцию и избегайте намокания листвы.']:['Поддерживайте регулярный уход.','Наблюдайте за состоянием листьев.'];
+       setResult({name:'Томат',condition:state,tips:tip,kind:'tomato'});
+      });
+    } else {
+      setResult({name:SPECIES_NAMES[sp.key]||sp.label,condition:'',tips:[],kind:'species'});
+    }
+   });
+  }).catch(function(){setErr('Не удалось завершить анализ. Проверьте интернет и повторите попытку.');})
+    .then(function(){setBusy(false);});
+ }
+ var view=busy?html`<div className="row"><div className="spin"></div><p>Анализируем фотографию…</p></div>`:
+  result?html`<div className="stack" style=${{gap:15}}>
+   <span className="chip good">Результат</span>
+   <p className="big-result" style=${{fontSize:'clamp(2rem,4vw,3.2rem)',lineHeight:1.1}}>${result.name}</p>
+   ${result.condition?html`<h3 style=${{fontSize:'1.35rem'}}>${result.condition}</h3>`:null}
+   ${result.tips.length?html`<div className="stack"><h4>Рекомендации по уходу</h4><ul className="recs">${result.tips.map(function(t,i){return html`<li key=${i}>${t}</li>`;})}</ul></div>`:null}
+   <p className="muted small">Результат автоматического распознавания по фотографии.</p>
+  </div>`:html`<p className="muted">Загрузите фото растения и нажмите «Проверить».</p>`;
+ return html`<div>
+  <div className="section-head"><p className="eyebrow">PlantAI Vision</p><h1 className="h2" style=${{marginTop:8}}>Проверка растения</h1><p className="sub">Одно фото — название растения, признаки состояния и рекомендации.</p></div>
+  <div className="two">
+   <section className="card stack">
+    <div className=${'drop'+(src?' has':'')} onDragOver=${function(e){e.preventDefault();}} onDrop=${function(e){e.preventDefault();pick(e.dataTransfer.files[0]);}}>
+     ${src?html`<img src=${src} alt="Фотография растения" />`:html`<div className="drop-empty"><${Icon} name="upload" size=${34}/><strong>Загрузите фото листа</strong><span>JPG, PNG, WebP</span></div>`}
+    </div>
+    <input ref=${inp} type="file" accept="image/*" hidden onChange=${function(e){pick(e.target.files[0]);}} />
+    <div className="row"><button className="btn ghost" onClick=${function(){inp.current&&inp.current.click();}}>Выбрать фото</button>
+    <button className="btn primary" disabled=${!src||busy||!species.ready} onClick=${run}>${busy?'Анализ…':'Проверить'}</button></div>
+    ${err?html`<${Notice} tone="bad">${err}<//>`:null}
+   </section>
+   <section className="card" aria-live="polite"><h3>Результат</h3>${view}</section>
+  </div>
+ </div>`;
+}
+
+/* ============ КАТАЛОГ ============ */
+function Catalog() {
+  var s1 = useState(''), q = s1[0], setQ = s1[1];
+  var s2 = useState('Все'), wf = s2[0], setWf = s2[1];
+  var list = PLANTS.filter(function (pl) {
+    var t = q.trim().toLowerCase();
+    return (wf === 'Все' || pl.water === wf) && (!t || pl.ru.toLowerCase().indexOf(t) > -1 || pl.lat.toLowerCase().indexOf(t) > -1);
+  });
+  return html`<div>
+    <div className="section-head"><p className="eyebrow">Мир растений</p><h1 className="h2" style=${{ marginTop: 8 }}>Каталог растений</h1><p className="sub">20 комнатных растений с русскими и латинскими названиями и короткими советами по уходу.</p></div>
+    <div className="row" style=${{ gap: 14 }}>
+      <div className="search"><${Icon} name="search" size=${18} /><input id="catalog-search" className="field" type="search" placeholder="Поиск по русскому или латинскому названию" value=${q} onChange=${function (e) { setQ(e.target.value); }} aria-label="Поиск растений" /></div>
+      <div className="seg" role="group" aria-label="Фильтр по поливу">
+        ${['Все', 'Редкий', 'Умеренный', 'Регулярный'].map(function (w) { return html`<button key=${w} aria-pressed=${wf === w} onClick=${function () { setWf(w); }}>${w === 'Все' ? 'Любой полив' : 'Полив: ' + w.toLowerCase()}</button>`; })}
+      </div>
+    </div>
+    <p className="muted small" style=${{ marginTop: 14 }}>Найдено: ${list.length} из ${PLANTS.length}</p>
+    ${list.length ? html`<div className="cards">${list.map(function (pl) { return html`<article className="card pc" key=${pl.id}>
+      <div className="pc-art"><${PlantArt} kind=${pl.kind} c1=${pl.c1} c2=${pl.c2} c3=${pl.c3} v=${pl.v} label=${'Иллюстрация: ' + pl.ru} /></div>
+      <div className="pc-body">
+        <h3>${pl.ru}</h3><p className="latin">${pl.lat}</p>
+        <div className="row" style=${{ gap: 6 }}><span className="chip"><${Icon} name="sun" size=${14} />${pl.light}</span><span className="chip"><${Icon} name="drop" size=${14} />${pl.water} полив</span></div>
+        <p className="muted small">${pl.tip}</p>
+      </div></article>`; })}</div>` : html`<div className="empty"><${Icon} name="search" size=${32} /><p style=${{ marginTop: 8 }}>Ничего не найдено. Попробуйте другое название.</p></div>`}
+  </div>`;
+}
+
+/* ============ ЛАБОРАТОРИЯ ============ */
+function Ring(p) {
+  var R = 64, C = 2 * Math.PI * R, acc = p.value;
+  return html`<svg width="170" height="170" viewBox="0 0 170 170" role="img" aria-label=${'Точность ' + (acc == null ? 'не определена' : pct(acc))}>
+    <circle cx="85" cy="85" r=${R} fill="none" stroke="var(--line)" strokeWidth="14" />
+    <circle cx="85" cy="85" r=${R} fill="none" stroke="var(--accent)" strokeWidth="14" strokeLinecap="round" strokeDasharray=${C} strokeDashoffset=${acc == null ? C : C * (1 - acc)} transform="rotate(-90 85 85)" style=${{ transition: 'stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1)' }} />
+    <text x="85" y="86" textAnchor="middle" fontSize="30" fontWeight="700" style=${{ fill: 'var(--ink)', fontFamily: 'var(--font)' }}>${acc == null ? '—' : pct(acc)}</text>
+    <text x="85" y="108" textAnchor="middle" fontSize="12" style=${{ fill: 'var(--muted)', fontFamily: 'var(--font)' }}>точность</text>
+  </svg>`;
+}
+
+function Lab(p) {
+  var m = p.model, rows = p.rows, setRows = p.setRows;
+  var s1 = useState(''), truth = s1[0], setTruth = s1[1];
+  var s2 = useState([]), files = s2[0], setFiles = s2[1];
+  var s3 = useState([]), urls = s3[0], setUrls = s3[1];
+  var s4 = useState(false), busy = s4[0], setBusy = s4[1];
+  var s5 = useState(null), msg = s5[0], setMsg = s5[1];
+  var s6 = useState(false), showCsv = s6[0], setShowCsv = s6[1];
+  var s7 = useState(false), confirmClear = s7[0], setConfirmClear = s7[1];
+  var inp = useRef(null), csvRef = useRef(null);
+  var st = useMemo(function () { return stats(rows); }, [rows]);
+  var csv = useMemo(function () { return toCSV(rows); }, [rows]);
+  var canPredict = m.ready && m.mapped;
+
+  useEffect(function () {
+    var u = files.slice(0, 8).map(function (f) { return URL.createObjectURL(f); }); setUrls(u);
+    return function () { u.forEach(function (x) { URL.revokeObjectURL(x); }); };
+  }, [files]);
+
+  function onFiles(e) { setFiles(Array.prototype.slice.call(e.target.files).filter(function (f) { return /^image\//.test(f.type); })); setMsg(null); }
+
+  function add() {
+    if (!files.length || !truth) return;
+    setBusy(true); setMsg(null);
+    var made = [], failed = 0, noPred = 0;
+    var chain = Promise.resolve();
+    files.forEach(function (f) {
+      chain = chain.then(function () {
+        return squareThumb(f).then(function (thumb) {
+          var rec = { id: uid(), ts: Date.now(), thumb: thumb, truth: truth, pred: null, conf: null };
+          if (!canPredict) { made.push(rec); return; }
+          return loadImg(thumb).then(function (img) { return m.predict(img); }).then(function (r) {
+            if (r.top.cat) { rec.pred = r.top.cat; rec.conf = r.top.prob; } else noPred++;
+          }, function () { noPred++; }).then(function () { made.push(rec); });
+        }, function () { failed++; });
+      });
+    });
+    chain.then(function () {
+      setRows(function (prev) { return prev.concat(made); });
+      setFiles([]); if (inp.current) inp.current.value = ''; setBusy(false);
+      var text = 'Добавлено фотографий: ' + made.length + '.';
+      if (!canPredict && made.length) text += ' Прогноз не сохранён: модель ИИ не подключена.';
+      if (noPred) text += ' Для ' + noPred + ' фото не удалось получить прогноз.';
+      if (failed) text += ' Не удалось прочитать файлов: ' + failed + '.';
+      setMsg({ tone: failed || noPred || !canPredict ? 'warn' : 'good', text: text });
+    });
+  }
+
+  function predictRows(onlyMissing) {
+    if (!canPredict) return;
+    setBusy(true); setMsg(null);
+    var upd = {}, chain = Promise.resolve();
+    rows.forEach(function (r) {
+      if (onlyMissing && r.pred) return;
+      chain = chain.then(function () { return loadImg(r.thumb).then(function (img) { return m.predict(img); }).then(function (o) { if (o.top.cat) upd[r.id] = { pred: o.top.cat, conf: o.top.prob }; }, function () { }); });
+    });
+    chain.then(function () {
+      var n = Object.keys(upd).length;
+      setRows(function (prev) { return prev.map(function (r) { return upd[r.id] ? Object.assign({}, r, upd[r.id]) : r; }); });
+      setBusy(false); setMsg({ tone: 'good', text: 'Прогнозы получены: ' + n + '.' });
+    });
+  }
+  function setRowTruth(id, v) { setRows(function (prev) { return prev.map(function (r) { return r.id === id ? Object.assign({}, r, { truth: v }) : r; }); }); }
+  function del(id) { setRows(function (prev) { return prev.filter(function (r) { return r.id !== id; }); }); }
+
+  function download() {
+    saveFile('plantai-experiment.csv', csv).then(function (r) {
+      if (r === 'saved') setMsg({ tone: 'good', text: 'Файл CSV сохранён.' });
+      else if (r === 'declined') setMsg({ tone: 'info', text: 'Сохранение отменено.' });
+      else if (r === 'unavailable') { setShowCsv(true); setMsg({ tone: 'warn', text: 'Скачивание недоступно в этом окне. Скопируйте данные из поля ниже или откройте сайт на обычном хостинге.' }); }
+      else setMsg({ tone: 'bad', text: 'Не удалось сохранить файл. Скопируйте данные из поля ниже.' });
+    });
+  }
+  function copy() {
+    var ok = function () { setMsg({ tone: 'good', text: 'CSV скопирован в буфер обмена. Вставьте его в Excel или Google Таблицы.' }); };
+    var fb = function () { setShowCsv(true); setMsg({ tone: 'warn', text: 'Не удалось скопировать автоматически. Выделите текст в поле ниже и скопируйте вручную.' }); setTimeout(function () { csvRef.current && csvRef.current.select(); }, 50); };
+    try { navigator.clipboard.writeText(csv).then(ok, fb); } catch (e) { fb(); }
+  }
+
+  var maxCell = Math.max.apply(null, [1].concat([].concat.apply([], st.mat)));
+  var noPredCount = rows.filter(function (r) { return !r.pred; }).length;
+
+  return html`<div>
+    <div className="section-head"><p className="eyebrow">Эксперимент</p><h1 className="h2" style=${{ marginTop: 8 }}>История проверок</h1><p className="sub">Загрузите проверочные фотографии, укажите правильную категорию, и сайт сохранит прогноз ИИ и сам посчитает точность. Данные хранятся в этом браузере.</p></div>
+    ${!p.storageOk ? html`<div style=${{ marginBottom: 16 }}><${Notice} tone="bad" icon="alert">Браузер не даёт сохранить данные (память заполнена или запрещена). Скачайте CSV, чтобы не потерять результаты.<//></div>` : null}
+
+    <div className="two">
+      <section className="card stack" aria-label="Новая проверка">
+        <h3 style=${{ margin: 0 }}>Новая проверка</h3>
+        <div><span className="small" style=${{ fontWeight: 600 }}>1. Правильная категория</span>
+          <div className="seg" role="group" aria-label="Правильная категория" style=${{ marginTop: 8 }}>
+            ${CATS.map(function (c) { return html`<button key=${c.key} aria-pressed=${truth === c.key} onClick=${function () { setTruth(c.key); }}>${c.name}</button>`; })}
+          </div></div>
+        <div><span className="small" style=${{ fontWeight: 600 }}>2. Проверочные фотографии</span>
+          <div className="row" style=${{ marginTop: 8 }}>
+            <input id="lab-files" ref=${inp} type="file" accept="image/*" multiple hidden onChange=${onFiles} />
+            <button className="btn ghost" onClick=${function () { inp.current && inp.current.click(); }}><${Icon} name="upload" size=${18} />Выбрать фото</button>
+            <span className="muted small">${files.length ? 'Выбрано: ' + files.length : 'Можно выбрать несколько: все получат одну категорию'}</span>
+          </div>
+          ${urls.length ? html`<div className="row" style=${{ marginTop: 10, gap: 6 }}>${urls.map(function (u, i) { return html`<img key=${i} className="thumb" src=${u} alt=${'Выбранное фото ' + (i + 1)} />`; })}</div>` : null}
+        </div>
+        ${!m.ready ? html`<${Notice} tone="warn" icon="cpu"><strong>Для анализа подключите ИИ-модель</strong><br />Фото сохранятся без прогноза. Подключите модель, и прогнозы можно будет получить кнопкой «Прогнать».<div style=${{ marginTop: 8 }}><button className="btn ghost sm" onClick=${p.onSetup}>Настроить модель</button></div><//>` : (!m.mapped ? html`<${Notice} tone="warn" icon="alert">Сопоставьте классы модели с категориями в разделе «Проверка растения».<div style=${{ marginTop: 8 }}><button className="btn ghost sm" onClick=${p.onSetup}>Открыть настройки</button></div><//>` : null)}
+        <div className="row"><button className="btn primary" disabled=${!files.length || !truth || busy} onClick=${add}><${Icon} name="check" size=${18} />${busy ? 'Обработка…' : (canPredict ? 'Проверить моделью и сохранить' : 'Сохранить без прогноза')}</button></div>
+        ${msg ? html`<${Notice} tone=${msg.tone} icon=${msg.tone === 'good' ? 'check' : 'info'}>${msg.text}<//>` : null}
+      </section>
+
+      <section className="card stack" aria-label="Точность">
+        <h3 style=${{ margin: 0 }}>Точность модели</h3>
+        <div className="kpis">
+          <${Ring} value=${st.acc} />
+          <div className="nums"><div><b>${st.total}</b><span>всего проверок</span></div><div><b>${st.n}</b><span>с прогнозом ИИ</span></div><div><b>${st.ok}</b><span>совпало</span></div></div>
+        </div>
+        <p className="muted small">Точность = совпавшие прогнозы ÷ проверки с прогнозом. Достоверность результата оценивается на отложенных проверочных фотографиях; нельзя использовать обучающие снимки для итоговой оценки.</p>
+      </section>
+    </div>
+
+    <div className="two" style=${{ marginTop: 24 }}>
+      <section className="card stack" aria-label="Точность по категориям">
+        <h3 style=${{ margin: 0 }}>Точность по категориям</h3>
+        ${st.per.map(function (r) { return html`<div key=${r.key} className="stack" style=${{ gap: 6 }}>
+          <div className="row" style=${{ justifyContent: 'space-between' }}><span>${CAT[r.key].name}</span><strong style=${{ fontVariantNumeric: 'tabular-nums' }}>${r.total ? r.ok + ' из ' + r.total + ' · ' + pct(r.acc) : 'нет данных'}</strong></div>
+          <div className="meter"><i style=${{ width: (r.acc == null ? 0 : r.acc * 100) + '%', background: CAT[r.key].color }}></i></div></div>`; })}
+      </section>
+      <section className="card" aria-label="Матрица ошибок">
+        <h3>Сравнение: правильный ответ и прогноз ИИ</h3>
+        <div className="mx" role="table" aria-label="Матрица ошибок: строки — правильная категория, столбцы — прогноз ИИ">
+          <div className="h l">Правильно ↓ / Прогноз →</div>${CATS.map(function (c) { return html`<div className="h" key=${c.key}>${c.short}</div>`; })}
+          ${CATS.map(function (a, i) { return html`<${React.Fragment} key=${a.key}><div className="h l">${a.short}</div>${CATS.map(function (b, j) {
+            var n = st.mat[i][j], diag = i === j, rgb = diag ? 'var(--good-rgb)' : 'var(--bad-rgb)';
+            return html`<div key=${b.key} className="c" style=${n ? { background: 'rgba(' + (diag ? 'var(--good-rgb)' : 'var(--bad-rgb)') + ',' + (0.14 + 0.5 * n / maxCell).toFixed(2) + ')' } : null}>${n}</div>`; })}<//>`; })}
+        </div>
+        <p className="muted small" style=${{ marginTop: 12 }}>Зелёные клетки по диагонали — верные прогнозы, красные — ошибки.</p>
+      </section>
+    </div>
+
+    <section style=${{ marginTop: 24 }} aria-label="Таблица эксперимента">
+      <div className="row" style=${{ justifyContent: 'space-between', marginBottom: 14 }}>
+        <h2 style=${{ fontSize: '1.5rem', letterSpacing: '-.02em' }}>Таблица эксперимента</h2>
+        <div className="row">
+          ${canPredict && noPredCount ? html`<button className="btn ghost sm" disabled=${busy} onClick=${function () { predictRows(true); }}>Прогнать без прогноза (${noPredCount})</button>` : null}
+          ${canPredict && rows.length ? html`<button className="btn ghost sm" disabled=${busy} onClick=${function () { predictRows(false); }}>Пересчитать все</button>` : null}
+          <button className="btn primary sm" disabled=${!rows.length} onClick=${download}><${Icon} name="download" size=${16} />Скачать CSV</button>
+          <button className="btn ghost sm" disabled=${!rows.length} onClick=${copy}><${Icon} name="copy" size=${16} />Копировать CSV</button>
+          <button className="btn ghost sm" disabled=${!rows.length} onClick=${function () { setShowCsv(!showCsv); }}>${showCsv ? 'Скрыть CSV' : 'Показать CSV'}</button>
+        </div>
+      </div>
+      ${rows.length ? html`<div className="tbl-wrap"><table>
+        <thead><tr><th>№</th><th>Фото</th><th>Дата</th><th>Правильная категория</th><th>Прогноз ИИ</th><th>Уверенность</th><th>Результат</th><th><span style=${{ position: 'absolute', left: '-9999px' }}>Действия</span></th></tr></thead>
+        <tbody>${rows.map(function (r, i) { return html`<tr key=${r.id}>
+          <td className="num">${i + 1}</td>
+          <td><img className="thumb" src=${r.thumb} alt=${'Проверочное фото ' + (i + 1)} /></td>
+          <td className="num muted">${fmtDate(r.ts)}</td>
+          <td><select id=${'truth-' + r.id} className="field" aria-label=${'Правильная категория, строка ' + (i + 1)} value=${r.truth} onChange=${function (e) { setRowTruth(r.id, e.target.value); }}>${CATS.map(function (c) { return html`<option key=${c.key} value=${c.key}>${c.name}</option>`; })}</select></td>
+          <td>${r.pred ? CAT[r.pred].name : html`<span className="muted">Нет прогноза</span>`}</td>
+          <td className="num">${pct(r.conf)}</td>
+          <td>${r.pred ? (r.pred === r.truth ? html`<span className="chip good"><${Icon} name="check" size=${14} />Совпало</span>` : html`<span className="chip bad"><${Icon} name="x" size=${14} />Ошибка</span>`) : (canPredict ? html`<button className="btn ghost sm" disabled=${busy} onClick=${function () { predictRows(true); }}>Прогнать</button>` : html`<span className="chip mute">Ожидает</span>`)}</td>
+          <td><button className="btn ghost sm" aria-label=${'Удалить строку ' + (i + 1)} onClick=${function () { del(r.id); }}><${Icon} name="trash" size=${16} /></button></td></tr>`; })}</tbody></table></div>`
+      : html`<div className="card empty"><${Icon} name="flask" size=${34} /><p style=${{ marginTop: 10, fontWeight: 600, color: 'var(--ink)' }}>Таблица пока пуста</p><p className="small" style=${{ maxWidth: '34em', margin: '6px auto 0' }}>Выберите правильную категорию, загрузите проверочные фотографии и нажмите «Проверить моделью и сохранить». Строки появятся здесь, а точность и графики посчитаются сами.</p></div>`}
+      ${showCsv && rows.length ? html`<div style=${{ marginTop: 14 }}><label htmlFor="csv-text" className="small muted">Данные CSV (разделитель — точка с запятой, открывается в Excel и Google Таблицах)</label><textarea id="csv-text" ref=${csvRef} className="field csv" readOnly value=${csv} style=${{ marginTop: 6 }}></textarea></div>` : null}
+      ${rows.length ? html`<div className="row" style=${{ marginTop: 14 }}>
+        ${confirmClear ? html`<span className="small">Удалить все ${rows.length} строк?</span><button className="btn danger sm" onClick=${function () { setRows([]); setConfirmClear(false); setShowCsv(false); setMsg(null); }}>Да, удалить</button><button className="btn ghost sm" onClick=${function () { setConfirmClear(false); }}>Отмена</button>`
+        : html`<button className="btn ghost sm" onClick=${function () { setConfirmClear(true); }}><${Icon} name="trash" size=${16} />Очистить данные</button>`}</div>` : null}
+    </section>
+  </div>`;
+}
+
+/* ============ О ПРОЕКТЕ ============ */
+var ABOUT = [
+ ['sun','Освещение',['Выбирайте яркий или рассеянный свет в зависимости от вида растения.','Некоторые растения могут получить ожоги под прямыми солнечными лучами.']],
+ ['drop','Полив',['Перед поливом проверяйте верхние 2–3 см почвы.','Не оставляйте лишнюю воду в поддоне.']],
+ ['leaf','Уход за листьями',['Аккуратно удаляйте пыль мягкой влажной тканью.','Регулярно осматривайте листья на наличие пятен и вредителей.']],
+ ['shield','Важно знать',['Результат ИИ — предположение по фотографии, а не точный диагноз.','Проверяйте также почву, корни и условия содержания растения.']]
+];
+function About(p) {
+  return html`<div>
+    <div className="section-head"><p className="eyebrow">Рекомендации</p><h1 className="h2" style=${{ marginTop: 8 }}>Советы по уходу</h1><p className="sub">Простые рекомендации, которые помогут вашим растениям чувствовать себя лучше.</p></div>
+    <div className="grid3" style=${{ gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,300px),1fr))' }}>
+      ${ABOUT.map(function (a) { return html`<article className="card" key=${a[1]}>
+        <div className="step-n" style=${{ borderRadius: 12 }}><${Icon} name=${a[0]} size=${19} /></div>
+        <h3>${a[1]}</h3>${a[2].map(function (t, i) { return html`<p className="muted" key=${i} style=${{ marginTop: i ? 10 : 0 }}>${t}</p>`; })}</article>`; })}
+    </div>
+    <section className="card soft banner" style=${{ marginTop: 24 }}>
+      <div style=${{ minWidth: 0, maxWidth: '36em' }}><h3 style=${{ fontSize: '1.3rem' }}>Позаботьтесь о своём растении</h3><p className="muted">Загрузите фотографию и получите полезные советы по уходу.</p></div>
+      <div className="row"><button className="btn primary" onClick=${function () { p.go('diagnosis'); }}>Проверить растение</button></div>
+    </section>
+  </div>`;
+}
+
+
+/* ============ ЛИЧНЫЙ ДНЕВНИК И ПЛАН УХОДА ============ */
+function MyPlants() {
+  var initial = function () { return store.get('plantai.personal.v1', []); };
+  var a = useState(initial), plants = a[0], setPlants = a[1];
+  var b = useState(''), name = b[0], setName = b[1];
+  var c = useState(''), species = c[0], setSpecies = c[1];
+  var d = useState(''), active = d[0], setActive = d[1];
+  var e = useState(''), light = e[0], setLight = e[1];
+  var f = useState(''), soil = f[0], setSoil = f[1];
+  var g = useState(''), condition = g[0], setCondition = g[1];
+  var j = useState(''), note = j[0], setNote = j[1];
+  var k = useState(''), photo = k[0], setPhoto = k[1];
+  var z = useState(''), message = z[0], setMessage = z[1];
+  useEffect(function () { if (!store.set('plantai.personal.v1', plants)) setMessage('Память браузера заполнена. Сохраните резервную копию.'); }, [plants]);
+  var current = plants.find(function(p){return p.id===active;}) || plants[0];
+  function addPlant() {
+    if (!name.trim() || !species) {setMessage('Укажите название и вид растения.');return;}
+    var id=uid();setPlants(function(old){return old.concat([{id:id,name:name.trim(),species:species,entries:[]}]);});setActive(id);setName('');setMessage('Растение добавлено.');
+  }
+  function fileChange(ev) {
+    var file=ev.target.files && ev.target.files[0];
+    if (!file) return;
+    if (!/^image\//.test(file.type)){setMessage('Нужно изображение JPG или PNG.');return;}
+    squareThumb(file,420).then(setPhoto,function(){setMessage('Не удалось прочитать фотографию.');});
+  }
+  function saveEntry(){
+    if(!current){setMessage('Сначала добавьте растение.');return;}
+    if(!photo){setMessage('Добавьте фотографию для дневника.');return;}
+    if(!condition){setMessage('Укажите состояние растения.');return;}
+    var entry={id:uid(),ts:Date.now(),photo:photo,light:light,soil:soil,condition:condition,note:note.trim()};
+    setPlants(function(old){return old.map(function(p){return p.id===current.id?Object.assign({},p,{entries:p.entries.concat([entry])}):p;});});
+    setPhoto('');setNote('');setCondition('');setMessage('Наблюдение сохранено.');
+  }
+  function removeEntry(id){setPlants(function(old){return old.map(function(p){return p.id===current.id?Object.assign({},p,{entries:p.entries.filter(function(x){return x.id!==id;})}):p;});});}
+  function carePlan(){
+    if(!current)return [];
+    var sp=PLANTS.find(function(p){return p.ru===current.species;});
+    var arr=[sp?sp.tip:'Уточните особенности ухода за вашим видом растения.'];
+    if(soil==='dry')arr.push('Почва сухая: проверьте глубину просыхания и потребность именно этого вида в поливе.');
+    if(soil==='wet')arr.push('Почва влажная: не поливайте повторно, проверьте дренаж и отсутствие застоя воды.');
+    if(light==='direct')arr.push('При прямом солнце следите за ожогами листьев; освещение подбирайте по виду.');
+    if(light==='low')arr.push('При слабом освещении оцените, достаточно ли света этому виду.');
+    if(condition==='worse')arr.push('Если состояние ухудшается, осмотрите обе стороны листьев, стебель и корни.');
+    arr.push('Повторите фото с того же ракурса через 2–3 дня, чтобы сравнить изменения.');
+    return arr;
+  }
+  var entries=current?current.entries.slice().sort(function(a,b){return a.ts-b.ts;}):[];
+  var first=entries.length>1?entries[0]:null, last=entries.length>1?entries[entries.length-1]:null;
+  return html`<div>
+    <div className="section-head"><p className="eyebrow">Персональное пространство</p><h1 className="h2" style=${{marginTop:8}}>Мои растения</h1><p className="sub">Дневник здоровья, персональный план ухода и контроль изменений — в одном месте.</p></div>
+    <div className="two">
+      <section className="card stack"><h3>Добавить растение</h3>
+        <label>Имя растения<input className="field" value=${name} placeholder="Например, Мой спатифиллум" onChange=${function(e){setName(e.target.value);}} /></label>
+        <label>Вид растения<select className="field" style=${{width:'100%'}} value=${species} onChange=${function(e){setSpecies(e.target.value);}}><option value="">Выберите из каталога</option>${PLANTS.map(function(p){return html`<option key=${p.id} value=${p.ru}>${p.ru}</option>`;})}</select></label>
+        <button className="btn primary" onClick=${addPlant}>Добавить в коллекцию</button>
+      </section>
+      <section className="card stack"><h3>Ваша коллекция</h3>
+        ${plants.length?html`<div className="seg">${plants.map(function(p){return html`<button key=${p.id} aria-pressed=${current&&current.id===p.id} onClick=${function(){setActive(p.id);setMessage('');}}>${p.name} · ${p.entries.length} фото</button>`;})}</div>`:html`<p className="muted">Добавьте первое растение, чтобы начать наблюдение.</p>`}
+        ${current?html`<p className="muted small">Выбрано: <strong>${current.name}</strong> · ${current.species}</p>`:null}
+      </section>
+    </div>
+    ${message?html`<div style=${{marginTop:14}}><${Notice} tone="info">${message}<//></div>`:null}
+    ${current?html`<div className="two" style=${{marginTop:24}}>
+      <section className="card stack"><h3>Дневник здоровья</h3><p className="muted small">Добавьте новый снимок и условия ухода. Фото и записи сохраняются в этом браузере.</p>
+        <label>Фотография<input className="field" type="file" accept="image/*" onChange=${fileChange} /></label>
+        ${photo?html`<img src=${photo} alt="Новое фото растения" style=${{width:'100%',maxHeight:240,objectFit:'contain',borderRadius:16}}/>`:null}
+        <label>Освещение<select className="field" style=${{width:'100%'}} value=${light} onChange=${function(e){setLight(e.target.value);}}><option value="">Не указано</option><option value="direct">Прямое солнце</option><option value="diffuse">Рассеянный свет</option><option value="low">Слабое освещение</option></select></label>
+        <label>Состояние почвы<select className="field" style=${{width:'100%'}} value=${soil} onChange=${function(e){setSoil(e.target.value);}}><option value="">Не проверено</option><option value="dry">Сухая</option><option value="normal">Умеренно влажная</option><option value="wet">Очень влажная</option></select></label>
+        <label>Состояние растения<select className="field" style=${{width:'100%'}} value=${condition} onChange=${function(e){setCondition(e.target.value);}}><option value="">Выберите состояние</option><option value="good">Выглядит здоровым</option><option value="same">Без изменений</option><option value="better">Стало лучше</option><option value="worse">Стало хуже</option></select></label>
+        <label>Заметка<textarea className="field" rows="2" placeholder="Что изменилось после полива?" value=${note} onChange=${function(e){setNote(e.target.value);}}></textarea></label>
+        <button className="btn primary" onClick=${saveEntry}>Сохранить наблюдение</button>
+      </section>
+      <section className="card stack"><h3>Умный план ухода</h3><p className="muted small">Рекомендации подбираются по виду растения и введённым условиям. Это правила ухода, а не новый ИИ-диагноз.</p>
+        <ul className="recs">${carePlan().map(function(t,i){return html`<li key=${i}>${t}</li>`;})}</ul>
+        <h3 style=${{marginTop:14}}>Контроль восстановления</h3>
+        ${last?html`<p>Последнее наблюдение: <strong>${last.condition==='better'?'Улучшение':last.condition==='worse'?'Ухудшение':last.condition==='good'?'Здоровый вид':'Без изменений'}</strong></p>`:html`<p className="muted">Добавьте минимум два наблюдения в разные дни для сравнения.</p>`}
+        ${first&&last?html`<div className="two" style=${{gap:12}}><div><img src=${first.photo} alt="Первое фото" style=${{width:'100%',borderRadius:14}}/><p className="small muted">Первое · ${fmtDate(first.ts)}</p></div><div><img src=${last.photo} alt="Последнее фото" style=${{width:'100%',borderRadius:14}}/><p className="small muted">Последнее · ${fmtDate(last.ts)}</p></div></div>`:null}
+        <p className="muted small">Сравнение фотографий визуальное; изменение состояния отмечаете вы сами.</p>
+      </section>
+    </div>
+    <section className="card" style=${{marginTop:24}}><h3>История наблюдений · ${entries.length}</h3>
+      ${entries.length?html`<div className="cards">${entries.slice().reverse().map(function(e){return html`<article className="card" key=${e.id} style=${{padding:14}}><img src=${e.photo} alt="Фото наблюдения" style=${{width:'100%',height:170,objectFit:'cover',borderRadius:14}}/><p className="small muted" style=${{marginTop:10}}>${fmtDate(e.ts)}</p><p style=${{fontWeight:600}}>${e.condition==='better'?'Стало лучше':e.condition==='worse'?'Стало хуже':e.condition==='good'?'Здоровый вид':'Без изменений'}</p><p className="muted small">${e.note||'Без заметки'}</p><button className="btn ghost sm" style=${{marginTop:8}} onClick=${function(){removeEntry(e.id);}}>Удалить запись</button></article>`;})}</div>`:html`<p className="muted">Пока нет фотографий. Сохраните первое наблюдение.</p>`}
+    </section>`:null}
+  </div>`;
+}
+
+/* ============ ПРИЛОЖЕНИЕ ============ */
+function App() {
+  var r = useRoute(), route = r[0], go = r[1];
+  var model = useModel();
+  var species = useSpeciesModel();
+  useEffect(function(){ getIndoorModel().catch(function(){}); },[]);
+  var s1 = useState(function () { return store.get('plantai.tomato.rows.v1', []); }), rows = s1[0], setRows = s1[1];
+  var s2 = useState(true), storageOk = s2[0], setStorageOk = s2[1];
+  useEffect(function () { setStorageOk(store.set('plantai.tomato.rows.v1', rows)); }, [rows]);
+  var onSetup = function () { go('diagnosis'); setTimeout(function () { var e = document.getElementById('model-panel'); if (e) e.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80); };
+  var page = route === 'home' ? html`<${Home} go=${go} model=${model} />`
+    : route === 'diagnosis' ? html`<${Diagnosis} model=${model} species=${species} onSetup=${onSetup} />`
+    : route === 'catalog' ? html`<${Catalog} />`
+    : route === 'journal' ? html`<${MyPlants} />`
+    : route === 'lab' ? html`<${Lab} model=${model} rows=${rows} setRows=${setRows} storageOk=${storageOk} onSetup=${onSetup} />`
+    : html`<${About} go=${go} />`;
+  return html`<div>
+    <${Header} route=${route} go=${go} />
+    <main className="wrap page" key=${route}>${page}</main>
+    <footer><div className="wrap">© PlantAI · Забота о растениях каждый день</div></footer>
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+})();
+</script>
+
+</body></html>
